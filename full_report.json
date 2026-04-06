@@ -1,0 +1,3814 @@
+{
+  "run_timestamp": "2026-04-03T12:35:49.900696",
+  "evaluation": {
+    "network": {
+      "rule_based": {
+        "true_positives": 580,
+        "false_positives": 407,
+        "true_negatives": 14,
+        "false_negatives": 199,
+        "precision": 0.5876,
+        "recall": 0.7445,
+        "f1": 0.6569,
+        "false_positive_rate": 0.9667
+      },
+      "ml_model": {
+        "true_positives": 779,
+        "false_positives": 0,
+        "true_negatives": 421,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "auc_roc": 1.0,
+        "avg_precision": 1.0,
+        "false_positive_rate": 0.0
+      },
+      "fp_reduction_%": 100.0,
+      "f1_delta": 0.3431
+    },
+    "auth": {
+      "rule_based": {
+        "true_positives": 420,
+        "false_positives": 0,
+        "true_negatives": 179,
+        "false_negatives": 1,
+        "precision": 1.0,
+        "recall": 0.9976,
+        "f1": 0.9988,
+        "false_positive_rate": 0.0
+      },
+      "ml_model": {
+        "true_positives": 421,
+        "false_positives": 0,
+        "true_negatives": 179,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "auc_roc": 1.0,
+        "avg_precision": 1.0,
+        "false_positive_rate": 0.0
+      },
+      "fp_reduction_%": 0.0,
+      "f1_delta": 0.0012
+    },
+    "http": {
+      "rule_based": {
+        "true_positives": 550,
+        "false_positives": 188,
+        "true_negatives": 150,
+        "false_negatives": 12,
+        "precision": 0.7453,
+        "recall": 0.9786,
+        "f1": 0.8462,
+        "false_positive_rate": 0.5562
+      },
+      "ml_model": {
+        "true_positives": 562,
+        "false_positives": 0,
+        "true_negatives": 338,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "auc_roc": 1.0,
+        "avg_precision": 1.0,
+        "false_positive_rate": 0.0
+      },
+      "fp_reduction_%": 100.0,
+      "f1_delta": 0.1538
+    },
+    "system": {
+      "rule_based": {
+        "true_positives": 303,
+        "false_positives": 0,
+        "true_negatives": 397,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_positive_rate": 0.0
+      },
+      "ml_model": {
+        "true_positives": 303,
+        "false_positives": 0,
+        "true_negatives": 397,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "auc_roc": 1.0,
+        "avg_precision": 1.0,
+        "false_positive_rate": 0.0
+      },
+      "fp_reduction_%": 0.0,
+      "f1_delta": 0.0
+    }
+  },
+  "alert_statistics": {
+    "total_events_processed": 2065,
+    "alerts_raised": 1025,
+    "alerts_suppressed": 1040,
+    "suppression_rate_%": 50.4,
+    "severity_distribution": {
+      "CRITICAL": 1025
+    },
+    "campaigns_detected": 199,
+    "ml_only_detections": 156,
+    "rule_only_detections": 0,
+    "both_detected": 869
+  },
+  "campaigns": {
+    "CAMP-17B19452": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "76.77.179.49"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-451C2954": {
+      "alerts": 8,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "87.109.93.102"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A9AA568E": {
+      "alerts": 12,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "15.81.226.36",
+        "15.81.174.125"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1190",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-095DCB40": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "173.244.76.69"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-8F269DB1": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "131.190.48.181"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-7C1FB0AD": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "112.109.39.11"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A59863EA": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "168.151.90.202"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-99D5317D": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "141.199.179.94"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-8916044B": {
+      "alerts": 8,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "195.145.186.219"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-01FCCDBA": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "107.212.2.117"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1110.001",
+        "T1078",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-FE028F82": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "208.192.89.172"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-2D32643B": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "87.158.22.182"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-1A0CB410": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "214.243.122.67"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-20C8CB3D": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "125.143.14.166"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-F7EB891C": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "205.82.4.58"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1190",
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1314BE03": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "218.132.81.119"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-4C5B5D39": {
+      "alerts": 8,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "86.124.138.152"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E44B7957": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "162.131.211.190"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E4DE3D38": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "162.234.243.142"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-4583F5EE": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "121.134.56.197"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-18D09E61": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "77.170.55.90"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-9722C12B": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "213.0.134.229"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-BC05498C": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "155.12.29.68"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-2670CCF2": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "10.96.155.112"
+      ],
+      "ttps": [
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-C391D247": {
+      "alerts": 8,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "183.203.57.165"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-14260E86": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "205.208.191.247"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-BCE468E8": {
+      "alerts": 8,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "121.247.109.209"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-6332F92A": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "184.246.87.139"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-9379CBB8": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "72.214.224.211"
+      ],
+      "ttps": [
+        "T1078",
+        "T1110.001",
+        "T1595.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-CD4C8975": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "175.177.213.221"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-603E8715": {
+      "alerts": 8,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "164.79.147.120"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-656A6508": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "126.46.152.128"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-3F343A02": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "178.216.242.109"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-B165D997": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "145.210.146.78"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1190",
+        "T1059",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-F6433093": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "204.205.127.190"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-AD6719E0": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "162.82.129.121"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1110.001",
+        "T1595.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-14947DFB": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "4.51.141.104"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-16DE7513": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "186.237.217.98"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1E59AB0D": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "169.151.180.226"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-3CF0EC0E": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "192.186.168.36"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-212696BA": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "114.226.27.43"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E2EEECDE": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "49.161.117.62"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1083",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-68CF72B6": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "190.153.171.55"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-6991FB5F": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "164.76.173.143"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1210",
+        "T1595.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-5DFCAE44": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "153.215.117.107"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-B4F649FE": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "140.67.3.0"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-3F57C769": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "200.111.162.37"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-126BC7B4": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "186.193.149.110"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E6FA975C": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "137.200.30.95"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-D2F3827B": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "155.129.160.37"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-87516787": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "195.46.135.253"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-2A5190D7": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "12.254.52.173"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-07D627AD": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "175.159.33.196"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1110.001",
+        "T1078",
+        "T1083"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-AAD47655": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "151.166.84.244"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-D671D53E": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "177.84.118.93"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-8549E194": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "50.64.14.34"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-37CB8D2D": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "110.123.13.19"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-30CAEC56": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "196.217.39.164"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E6FBF700": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "198.136.34.78"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1210",
+        "T1083"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-68D77775": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "148.27.150.166"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110",
+        "T1190"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-368C56CB": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "8.194.39.247"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1083",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-18BF304C": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "201.142.40.231"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1835803C": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "111.56.158.203"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E6A42705": {
+      "alerts": 11,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "160.96.106.51"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1190",
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-28BFF9F6": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "157.9.207.40"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-4F65367A": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "201.201.194.254"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-85841673": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "109.248.202.232"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-970921E4": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "136.55.144.215"
+      ],
+      "ttps": [
+        "T1210",
+        "T1110.001",
+        "T1595.002",
+        "T1059.007"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-0DB0760F": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "134.148.43.176"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1083",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-8A6E667D": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "138.117.47.187"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-47489154": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "189.212.6.203"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-02F87D88": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "175.101.78.125"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-3A92F519": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "219.87.9.230"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1210"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-45FD4F9C": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "218.197.220.204"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-5E94EC61": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "214.39.117.167"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1190",
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A264E194": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "80.71.228.178"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-F985513B": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "186.36.234.116"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-87BF0598": {
+      "alerts": 2,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "88.19.134.211"
+      ],
+      "ttps": [
+        "T1210",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-C792F3A5": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "144.237.2.123"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A015E5FD": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "210.155.242.246"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1110.001",
+        "T1078",
+        "T1083"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-BD5545C3": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "190.195.235.26"
+      ],
+      "ttps": [
+        "T1087",
+        "T1110.001",
+        "T1595.002",
+        "T1083"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-F4BDBF0E": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "180.120.49.76"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-85B89603": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "220.77.140.245"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-7B2FDD1E": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "203.255.103.219"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1210",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-CE659FA1": {
+      "alerts": 2,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "191.113.185.64"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1110.001"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-6D6D2ED3": {
+      "alerts": 2,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "192.162.194.82"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1210"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-9A45CC5E": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "46.243.9.71"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-79DFAED4": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "7.121.173.172"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-FB62B867": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "144.255.212.4"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-05CC3F48": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "119.147.49.116"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-02415510": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "219.51.5.3"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-94044D35": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "96.189.169.205"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1210",
+        "T1110.001",
+        "T1595.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-7E6EBAB8": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "142.227.234.134"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A91912EC": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "211.186.132.153"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-41A9A8FD": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "165.169.0.188"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-2F366F1A": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "187.194.168.112"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-3565807D": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "172.85.60.227"
+      ],
+      "ttps": [
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-72293C3E": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "85.164.70.204"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-8C6DD1E3": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "131.163.234.56"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1AB86DB8": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "142.97.112.243"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-26FAF8DB": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "199.182.217.124"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-02D74E32": {
+      "alerts": 8,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "199.128.4.144"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-87F0581D": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "76.149.66.52"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1190",
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-223D3A81": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "168.198.119.45"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-173BA733": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "145.22.42.33"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-FB031529": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "88.66.73.11"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-951A7E63": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "176.93.21.141"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-16491AE8": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "163.237.116.158"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-2586D7F3": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "12.208.111.164"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-C45DB119": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "183.126.96.170"
+      ],
+      "ttps": [
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-FC5CF544": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "173.131.242.44"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1210",
+        "T1083"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-C317AB15": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "193.173.93.30"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1AA9C897": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "116.15.246.96"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-20C5C1E0": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "44.70.99.77"
+      ],
+      "ttps": [
+        "T1059",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-71473366": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "174.62.55.144"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-56275935": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "155.4.171.58"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A9A7D2E3": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "78.248.1.57"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-CA10A2D9": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "174.83.137.212"
+      ],
+      "ttps": [
+        "T1059.007",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-C8EBC97D": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "178.237.214.45"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-0DB2D4D5": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "130.173.82.247"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1110.001",
+        "T1595.002"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-ED9FB94F": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "125.8.17.193"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-24132F6A": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "211.132.67.181"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-0F2AA3ED": {
+      "alerts": 1,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "209.151.129.53"
+      ],
+      "ttps": [
+        "T1210"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-7776F646": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "146.253.66.212"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1210",
+        "T1083",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-F2402363": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "136.238.48.122"
+      ],
+      "ttps": [
+        "T1210",
+        "T1110.001",
+        "T1595.002",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-93700F89": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "191.178.221.61"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-0E1E8044": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "186.9.152.211"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-833DD08B": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "179.246.39.114"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-799E2DCF": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "209.209.199.208"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-7F570710": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "116.228.205.147"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1059",
+        "T1498.002",
+        "T1110",
+        "T1190"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-143D99AA": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "223.133.15.152"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-DA92C1B7": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "123.22.163.230"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1110.001",
+        "T1595.002"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-0870383A": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "173.137.40.165"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1110.001",
+        "T1595.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-74B20CF1": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "160.125.219.71"
+      ],
+      "ttps": [
+        "T1059",
+        "T1110.001",
+        "T1595.002",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-2D0011AB": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "192.154.224.197"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-8B26DD18": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "175.112.148.163"
+      ],
+      "ttps": [
+        "T1087",
+        "T1595.002",
+        "T1083"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-B1CD6FBB": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "192.61.209.53"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E4AD3E66": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "20.144.77.239"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A6FBF184": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "190.212.237.175"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1595.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-334A0786": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "174.114.69.240"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-D96E4384": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "165.13.2.128"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-C74331D9": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "181.247.39.223"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-6CDC0D7A": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "134.118.206.180"
+      ],
+      "ttps": [
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-CCB067A7": {
+      "alerts": 10,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "177.75.173.247",
+        "177.75.104.226"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A6ACEEA1": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "190.10.144.214"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-754FEF45": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "132.98.167.74"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-965854F0": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "132.115.151.116"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-AC269F2C": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "188.76.79.158"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1110.001",
+        "T1595.002"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-53F65C02": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "91.154.136.55"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-5D6634DE": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "145.110.39.54"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A1060DC9": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "215.246.134.149"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E57D0C86": {
+      "alerts": 7,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "196.136.68.50"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-40E69B5C": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "148.193.12.95"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-20738E5F": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "96.7.130.141"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-54260FBE": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "54.169.41.113"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1D0BA549": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "197.37.95.150"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1595.002",
+        "T1059.007"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-2AEEFB6B": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "176.151.218.3"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1CDB45A0": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "208.51.95.66"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-346AD592": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "222.245.149.153"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-1C4A0869": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "22.18.212.68"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-23CDA1DE": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "43.177.251.11"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1498.002",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-898BAED7": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "162.47.89.1"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-C29EAE03": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "204.62.121.146"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-721BA87F": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "59.169.25.147"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-7E035709": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "192.146.70.52"
+      ],
+      "ttps": [
+        "T1498.002",
+        "T1110.001",
+        "T1078",
+        "T1059.007"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-D0EB2333": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "144.246.176.16"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-26378B8C": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "30.81.114.124"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-CE51365D": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "200.178.47.110"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-B9974AE1": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "191.122.196.21"
+      ],
+      "ttps": [
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-49327DA5": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "174.100.118.162"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-0B999942": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "221.99.247.14"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-F7346E17": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "87.48.207.49"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-D8B04959": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "128.117.208.149"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-8730BD55": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "30.77.246.234"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-9A1D1A59": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "13.104.58.149"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1210"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-6472AB75": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "11.246.177.52"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1595.002",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "network"
+      ]
+    },
+    "CAMP-7DFC0187": {
+      "alerts": 2,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "138.164.215.88"
+      ],
+      "ttps": [
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "network"
+      ]
+    },
+    "CAMP-0CDCDBEC": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "198.192.214.139"
+      ],
+      "ttps": [
+        "T1110.001",
+        "T1595.002",
+        "T1083",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-C91E1D96": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "149.241.192.42"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-76872037": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "75.198.84.221"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-28D1F98E": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "218.128.3.243"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1083",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-FAB9E36B": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "199.132.7.39"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-A51F73D2": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "188.36.205.43"
+      ],
+      "ttps": [
+        "T1059.007",
+        "T1110.001",
+        "T1595.002",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-45F07EAE": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "210.80.93.179"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1078",
+        "T1110.001",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-2133E3E9": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "147.243.40.230"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1110.001",
+        "T1078",
+        "T1083"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-7F18D302": {
+      "alerts": 9,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "136.218.109.97"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-B600F45C": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "131.181.11.198"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-5A9DA2A6": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "181.4.82.113"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-BF46144E": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "111.8.136.96"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1210",
+        "T1110.001",
+        "T1078"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-F36E6860": {
+      "alerts": 5,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "197.59.103.112"
+      ],
+      "ttps": [
+        "T1059",
+        "T1595.002",
+        "T1087",
+        "T1083",
+        "T1078",
+        "T1110.001",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-4FC7B793": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "221.137.207.222"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1210",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-AE9CE80E": {
+      "alerts": 6,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "164.139.248.86"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1059.007",
+        "T1087",
+        "T1083",
+        "T1498.002",
+        "T1190"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-E0FC2D01": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "104.11.189.167"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1210",
+        "T1059.007"
+      ],
+      "layers": [
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-6FB634AD": {
+      "alerts": 4,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "132.211.27.36"
+      ],
+      "ttps": [
+        "T1110.004",
+        "T1190",
+        "T1059",
+        "T1078",
+        "T1110.001",
+        "T1110"
+      ],
+      "layers": [
+        "auth",
+        "http",
+        "network"
+      ]
+    },
+    "CAMP-37C2D4CA": {
+      "alerts": 2,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "201.37.139.31"
+      ],
+      "ttps": [
+        "T1059.007",
+        "T1595.002",
+        "T1190"
+      ],
+      "layers": [
+        "http"
+      ]
+    },
+    "CAMP-AD1D5CF6": {
+      "alerts": 2,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "197.157.24.122"
+      ],
+      "ttps": [
+        "T1087",
+        "T1595.002",
+        "T1083"
+      ],
+      "layers": [
+        "http"
+      ]
+    },
+    "CAMP-A4A04797": {
+      "alerts": 3,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "146.133.85.19"
+      ],
+      "ttps": [
+        "T1595.002",
+        "T1083",
+        "T1059.007"
+      ],
+      "layers": [
+        "http"
+      ]
+    },
+    "CAMP-A188C86A": {
+      "alerts": 2,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "177.44.67.23"
+      ],
+      "ttps": [
+        "T1083",
+        "T1059.007"
+      ],
+      "layers": [
+        "http"
+      ]
+    },
+    "CAMP-A0C0C773": {
+      "alerts": 1,
+      "max_severity": "CRITICAL",
+      "ips": [
+        "0.0.0.0"
+      ],
+      "ttps": [
+        "T1055",
+        "T1059",
+        "T1136"
+      ],
+      "layers": [
+        "system"
+      ]
+    }
+  },
+  "overall_fp_reduction_%": 100.0,
+  "runtime_seconds": 44.3
+}

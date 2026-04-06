@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honeypot ML · SOC Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700;900&display=swap');
+
+  :root {
+    --bg:         #050810;
+    --bg2:        #080d1a;
+    --bg3:        #0c1422;
+    --surface:    #0f1a2e;
+    --border:     #1a2d4a;
+    --accent:     #00d4ff;
+    --accent2:    #0066ff;
+    --critical:   #ff2d55;
+    --high:       #ff6b00;
+    --medium:     #ffd60a;
+    --low:        #30d158;
+    --text:       #c8d8f0;
+    --text-dim:   #4a6080;
+    --mono:       'Share Tech Mono', monospace;
+    --sans:       'Exo 2', sans-serif;
+    --glow:       0 0 20px rgba(0,212,255,0.3);
+    --glow-r:     0 0 20px rgba(255,45,85,0.4);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scan line effect */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative; z-index: 10;
+    background: linear-gradient(180deg, rgba(0,212,255,0.08) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .logo-icon {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: var(--glow);
+  }
+  .logo-text h1 { font-size: 18px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
+  .logo-text p  { font-size: 11px; color: var(--text-dim); font-family: var(--mono); letter-spacing: 1px; }
+
+  .header-right {
+    display: flex; align-items: center; gap: 24px;
+  }
+  .live-badge {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; color: var(--low);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--low);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(48,209,88,0.5); }
+    50%       { opacity: 0.6; box-shadow: 0 0 0 6px transparent; }
+  }
+
+  .clock {
+    font-family: var(--mono); font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  /* ── Main layout ── */
+  main {
+    position: relative; z-index: 5;
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 16px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .card:hover { border-color: rgba(0,212,255,0.3); }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.4;
+  }
+
+  .card-label {
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: var(--text-dim); margin-bottom: 12px;
+  }
+
+  /* ── KPI cards ── */
+  .kpi-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+  .kpi { text-align: center; }
+  .kpi-val {
+    font-family: var(--mono);
+    font-size: 36px; font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+  }
+  .kpi-val.red   { background: linear-gradient(135deg, var(--critical), #ff6b00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .kpi-val.green { background: linear-gradient(135deg, var(--low), #00c896); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .kpi-val.amber { background: linear-gradient(135deg, var(--high), var(--medium)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .kpi-sub { font-size: 11px; color: var(--text-dim); font-family: var(--mono); letter-spacing: 1px; }
+
+  /* ── Attack map ── */
+  .card-wide  { grid-column: span 2; }
+  .card-full  { grid-column: 1 / -1; }
+  .card-three { grid-column: span 3; }
+  .card-one   { grid-column: span 1; }
+
+  /* ── Layer breakdown ── */
+  .layer-bars { display: flex; flex-direction: column; gap: 12px; }
+  .layer-row { display: flex; align-items: center; gap: 12px; }
+  .layer-name {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-dim); width: 60px; flex-shrink: 0;
+    text-transform: uppercase;
+  }
+  .bar-track {
+    flex: 1; height: 6px;
+    background: var(--bg3); border-radius: 3px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 3px;
+    transition: width 1s ease;
+    position: relative;
+  }
+  .bar-fill::after {
+    content: '';
+    position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: inherit;
+    box-shadow: 0 0 6px currentColor;
+  }
+  .bar-val {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text); width: 40px; text-align: right;
+  }
+
+  /* ── Model comparison table ── */
+  .comparison-table {
+    width: 100%; border-collapse: collapse;
+    font-family: var(--mono); font-size: 12px;
+  }
+  .comparison-table th {
+    text-align: left; padding: 8px 12px;
+    color: var(--text-dim); font-weight: 400;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .comparison-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(26,45,74,0.5);
+    vertical-align: middle;
+  }
+  .comparison-table tr:last-child td { border-bottom: none; }
+  .comparison-table tr:hover td { background: rgba(0,212,255,0.03); }
+
+  .fp-badge {
+    display: inline-block;
+    padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+  }
+  .fp-high { background: rgba(255,45,85,0.15); color: var(--critical); }
+  .fp-low  { background: rgba(48,209,88,0.12); color: var(--low); }
+
+  .reduction-bar {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .reduction-track {
+    width: 80px; height: 4px;
+    background: var(--bg3); border-radius: 2px; overflow: hidden;
+  }
+  .reduction-fill {
+    height: 100%; background: var(--low); border-radius: 2px;
+    transition: width 1.2s ease;
+  }
+  .reduction-pct { color: var(--low); font-size: 11px; }
+
+  /* ── Feature importance ── */
+  .feat-list { display: flex; flex-direction: column; gap: 8px; }
+  .feat-row { display: flex; align-items: center; gap: 10px; }
+  .feat-name { font-family: var(--mono); font-size: 11px; color: var(--text); flex: 1; }
+  .feat-bar-track { width: 100px; height: 4px; background: var(--bg3); border-radius: 2px; }
+  .feat-bar-fill  { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+  .feat-pct { font-family: var(--mono); font-size: 10px; color: var(--text-dim); width: 36px; text-align: right; }
+
+  /* ── Alert feed ── */
+  .alert-feed { display: flex; flex-direction: column; gap: 6px; max-height: 340px; overflow-y: auto; }
+  .alert-feed::-webkit-scrollbar { width: 4px; }
+  .alert-feed::-webkit-scrollbar-track { background: var(--bg3); }
+  .alert-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .alert-item {
+    display: grid;
+    grid-template-columns: 8px 80px 120px 1fr 80px 50px;
+    align-items: center; gap: 10px;
+    padding: 8px 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--mono); font-size: 11px;
+    transition: all 0.2s;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; } }
+  .alert-item:hover { border-color: rgba(0,212,255,0.3); background: var(--surface); }
+
+  .sev-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .sev-CRITICAL { background: var(--critical); box-shadow: 0 0 6px var(--critical); }
+  .sev-HIGH     { background: var(--high);     box-shadow: 0 0 6px var(--high); }
+  .sev-MEDIUM   { background: var(--medium);   box-shadow: 0 0 6px var(--medium); }
+  .sev-LOW      { background: var(--low);      box-shadow: 0 0 6px var(--low); }
+
+  .alert-ip   { color: var(--accent); }
+  .alert-type { color: var(--text-dim); }
+  .alert-desc { color: var(--text); }
+  .alert-ttp  { color: #6060ff; }
+  .alert-score{
+    color: var(--text);
+    background: var(--bg3);
+    padding: 2px 6px; border-radius: 4px;
+    text-align: center;
+  }
+
+  /* ── MITRE heatmap ── */
+  .mitre-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+  }
+  .mitre-cell {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 6px;
+    text-align: center;
+    cursor: default;
+    transition: all 0.2s;
+  }
+  .mitre-cell:hover { border-color: var(--accent); }
+  .mitre-cell.hot-1 { background: rgba(255,45,85,0.20); border-color: rgba(255,45,85,0.4); }
+  .mitre-cell.hot-2 { background: rgba(255,107,0,0.18); border-color: rgba(255,107,0,0.4); }
+  .mitre-cell.hot-3 { background: rgba(255,214,10,0.12); border-color: rgba(255,214,10,0.3); }
+  .mitre-cell.hot-4 { background: rgba(0,212,255,0.10); border-color: rgba(0,212,255,0.3); }
+  .mitre-tid  { font-family: var(--mono); font-size: 9px; color: var(--text-dim); margin-bottom: 3px; }
+  .mitre-name { font-size: 9px; color: var(--text); line-height: 1.3; }
+  .mitre-count{ font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--critical); }
+
+  /* ── Timeline ── */
+  .timeline {
+    position: relative;
+    height: 80px;
+    display: flex; align-items: flex-end;
+    gap: 3px;
+  }
+  .tl-bar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--accent2), rgba(0,102,255,0.3));
+    border-radius: 2px 2px 0 0;
+    min-height: 4px;
+    transition: height 0.5s ease;
+    position: relative;
+  }
+  .tl-bar:hover::after {
+    content: attr(data-val);
+    position: absolute; bottom: 100%; left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg2); border: 1px solid var(--border);
+    padding: 2px 6px; border-radius: 4px;
+    font-family: var(--mono); font-size: 10px; white-space: nowrap;
+  }
+  .tl-bar.attack {
+    background: linear-gradient(180deg, var(--critical), rgba(255,45,85,0.3));
+  }
+
+  /* ── Section titles ── */
+  .section-title {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-title h2 { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: 1px; }
+  .section-title .tag {
+    font-family: var(--mono); font-size: 9px;
+    padding: 2px 8px; border-radius: 10px;
+    background: rgba(0,212,255,0.1); color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    width: 1px; height: 12px;
+    background: var(--border); flex-shrink: 0;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🍯</div>
+    <div class="logo-text">
+      <h1>HONEYPOT ML</h1>
+      <p>MULTI-LAYER · DETECTION SYSTEM · SOC DASHBOARD</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="live-badge"><div class="pulse"></div>LIVE MONITORING</div>
+    <div class="divider"></div>
+    <div class="clock" id="clock">--:--:-- UTC</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- KPI Row -->
+  <div class="kpi-grid">
+    <div class="card kpi">
+      <div class="card-label">Events / Hour</div>
+      <div class="kpi-val" id="kpi-events">3,400</div>
+      <div class="kpi-sub">TELEMETRY COLLECTED</div>
+    </div>
+    <div class="card kpi">
+      <div class="card-label">Active Alerts</div>
+      <div class="kpi-val red" id="kpi-alerts">1,025</div>
+      <div class="kpi-sub">ML FLAGGED</div>
+    </div>
+    <div class="card kpi">
+      <div class="card-label">FP Reduction</div>
+      <div class="kpi-val green">~30%</div>
+      <div class="kpi-sub">VS RULE BASELINE</div>
+    </div>
+    <div class="card kpi">
+      <div class="card-label">Campaigns</div>
+      <div class="kpi-val amber" id="kpi-campaigns">199</div>
+      <div class="kpi-sub">ACTIVE THREAT ACTORS</div>
+    </div>
+    <div class="card kpi">
+      <div class="card-label">AUC-ROC</div>
+      <div class="kpi-val green">1.000</div>
+      <div class="kpi-sub">MODEL PERFORMANCE</div>
+    </div>
+  </div>
+
+  <!-- Attack timeline -->
+  <div class="card card-three">
+    <div class="section-title">
+      <h2>ATTACK TIMELINE</h2>
+      <span class="tag">LAST 24H</span>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div style="display:flex; justify-content:space-between; margin-top:6px; font-family:var(--mono); font-size:9px; color:var(--text-dim)">
+      <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>NOW</span>
+    </div>
+  </div>
+
+  <!-- Layer breakdown -->
+  <div class="card card-one">
+    <div class="section-title">
+      <h2>LAYER TRAFFIC</h2>
+      <span class="tag">BREAKDOWN</span>
+    </div>
+    <div class="layer-bars">
+      <div class="layer-row">
+        <div class="layer-name">Network</div>
+        <div class="bar-track"><div class="bar-fill" style="width:85%; background:linear-gradient(90deg,#0066ff,#00d4ff)"></div></div>
+        <div class="bar-val">1,200</div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-name">HTTP</div>
+        <div class="bar-track"><div class="bar-fill" style="width:66%; background:linear-gradient(90deg,#6600ff,#0066ff)"></div></div>
+        <div class="bar-val">900</div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-name">System</div>
+        <div class="bar-track"><div class="bar-fill" style="width:52%; background:linear-gradient(90deg,#ff6b00,#ffd60a)"></div></div>
+        <div class="bar-val">700</div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-name">Auth</div>
+        <div class="bar-track"><div class="bar-fill" style="width:44%; background:linear-gradient(90deg,#ff2d55,#ff6b00)"></div></div>
+        <div class="bar-val">600</div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-name">DNS</div>
+        <div class="bar-track"><div class="bar-fill" style="width:25%; background:linear-gradient(90deg,#30d158,#00d4ff)"></div></div>
+        <div class="bar-val">ⓘ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert feed -->
+  <div class="card card-three">
+    <div class="section-title">
+      <h2>PRIORITY ALERT QUEUE</h2>
+      <span class="tag">ML SCORED</span>
+    </div>
+    <div class="alert-feed" id="alertFeed"></div>
+  </div>
+
+  <!-- Model comparison -->
+  <div class="card card-one">
+    <div class="section-title">
+      <h2>FP REDUCTION</h2>
+      <span class="tag">ML vs RULES</span>
+    </div>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Rules FP</th>
+          <th>ML FP</th>
+          <th>Reduction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Network</td>
+          <td><span class="fp-badge fp-high">407</span></td>
+          <td><span class="fp-badge fp-low">0</span></td>
+          <td><div class="reduction-bar"><div class="reduction-track"><div class="reduction-fill" style="width:100%"></div></div><span class="reduction-pct">100%</span></div></td>
+        </tr>
+        <tr>
+          <td>HTTP</td>
+          <td><span class="fp-badge fp-high">188</span></td>
+          <td><span class="fp-badge fp-low">0</span></td>
+          <td><div class="reduction-bar"><div class="reduction-track"><div class="reduction-fill" style="width:100%"></div></div><span class="reduction-pct">100%</span></div></td>
+        </tr>
+        <tr>
+          <td>Auth</td>
+          <td><span class="fp-badge fp-low">0</span></td>
+          <td><span class="fp-badge fp-low">0</span></td>
+          <td><div class="reduction-bar"><div class="reduction-track"><div class="reduction-fill" style="width:0%"></div></div><span class="reduction-pct">—</span></div></td>
+        </tr>
+        <tr>
+          <td>System</td>
+          <td><span class="fp-badge fp-low">0</span></td>
+          <td><span class="fp-badge fp-low">0</span></td>
+          <td><div class="reduction-bar"><div class="reduction-track"><div class="reduction-fill" style="width:0%"></div></div><span class="reduction-pct">—</span></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Feature importances -->
+  <div class="card card-one">
+    <div class="section-title">
+      <h2>TOP FEATURES</h2>
+      <span class="tag">RANDOM FOREST</span>
+    </div>
+    <div class="feat-list">
+      <div class="feat-row"><div class="feat-name">resource_sensitive</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:100%"></div></div><div class="feat-pct">39.6%</div></div>
+      <div class="feat-row"><div class="feat-name">proc_is_risky</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:75%"></div></div><div class="feat-pct">29.8%</div></div>
+      <div class="feat-row"><div class="feat-name">ua_len</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:63%"></div></div><div class="feat-pct">24.8%</div></div>
+      <div class="feat-row"><div class="feat-name">resp_time_log</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:62%"></div></div><div class="feat-pct">24.5%</div></div>
+      <div class="feat-row"><div class="feat-name">high_velocity</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:55%"></div></div><div class="feat-pct">21.6%</div></div>
+      <div class="feat-row"><div class="feat-name">ip_total_attempts</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:52%"></div></div><div class="feat-pct">20.7%</div></div>
+      <div class="feat-row"><div class="feat-name">ip_mean_bytes</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:44%"></div></div><div class="feat-pct">17.5%</div></div>
+      <div class="feat-row"><div class="feat-name">duration_log</div><div class="feat-bar-track"><div class="feat-bar-fill" style="width:40%"></div></div><div class="feat-pct">16.1%</div></div>
+    </div>
+  </div>
+
+  <!-- MITRE ATT&CK heatmap -->
+  <div class="card card-wide">
+    <div class="section-title">
+      <h2>MITRE ATT&CK HEATMAP</h2>
+      <span class="tag">TTP FREQUENCY</span>
+    </div>
+    <div class="mitre-grid">
+      <div class="mitre-cell hot-1"><div class="mitre-tid">T1110</div><div class="mitre-count">312</div><div class="mitre-name">Brute Force</div></div>
+      <div class="mitre-cell hot-2"><div class="mitre-tid">T1595</div><div class="mitre-count">247</div><div class="mitre-name">Active Scanning</div></div>
+      <div class="mitre-cell hot-2"><div class="mitre-tid">T1190</div><div class="mitre-count">198</div><div class="mitre-name">Exploit Public App</div></div>
+      <div class="mitre-cell hot-3"><div class="mitre-tid">T1059</div><div class="mitre-count">142</div><div class="mitre-name">Command & Scripting</div></div>
+      <div class="mitre-cell hot-3"><div class="mitre-tid">T1083</div><div class="mitre-count">118</div><div class="mitre-name">File & Dir Discovery</div></div>
+      <div class="mitre-cell hot-3"><div class="mitre-tid">T1210</div><div class="mitre-count">96</div><div class="mitre-name">Exploit Remote Svcs</div></div>
+      <div class="mitre-cell hot-4"><div class="mitre-tid">T1078</div><div class="mitre-count">84</div><div class="mitre-name">Valid Accounts</div></div>
+      <div class="mitre-cell hot-4"><div class="mitre-tid">T1090</div><div class="mitre-count">71</div><div class="mitre-name">Proxy / Tor</div></div>
+      <div class="mitre-cell hot-4"><div class="mitre-tid">T1498</div><div class="mitre-count">63</div><div class="mitre-name">Network DoS</div></div>
+      <div class="mitre-cell"><div class="mitre-tid">T1055</div><div class="mitre-count">42</div><div class="mitre-name">Process Injection</div></div>
+      <div class="mitre-cell"><div class="mitre-tid">T1136</div><div class="mitre-count">31</div><div class="mitre-name">Create Account</div></div>
+      <div class="mitre-cell"><div class="mitre-tid">T1087</div><div class="mitre-count">28</div><div class="mitre-name">Account Discovery</div></div>
+    </div>
+  </div>
+
+  <!-- Model metrics -->
+  <div class="card card-wide">
+    <div class="section-title">
+      <h2>MODEL PERFORMANCE</h2>
+      <span class="tag">PER LAYER · CV=5</span>
+    </div>
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Layer</th><th>Model</th><th>AUC-ROC</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--accent)">Network</td>
+          <td>Random Forest</td>
+          <td style="color:var(--low)">1.000</td>
+          <td>1.000</td><td>1.000</td>
+          <td style="color:var(--low)">1.000</td>
+        </tr>
+        <tr>
+          <td style="color:var(--accent)">Auth</td>
+          <td>Random Forest</td>
+          <td style="color:var(--low)">1.000</td>
+          <td>1.000</td><td>1.000</td>
+          <td style="color:var(--low)">1.000</td>
+        </tr>
+        <tr>
+          <td style="color:var(--accent)">HTTP</td>
+          <td>Random Forest</td>
+          <td style="color:var(--low)">1.000</td>
+          <td>1.000</td><td>1.000</td>
+          <td style="color:var(--low)">1.000</td>
+        </tr>
+        <tr>
+          <td style="color:var(--accent)">System</td>
+          <td>Random Forest</td>
+          <td style="color:var(--low)">1.000</td>
+          <td>1.000</td><td>1.000</td>
+          <td style="color:var(--low)">1.000</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px; padding:10px; background:var(--bg2); border:1px solid var(--border); border-radius:8px; font-family:var(--mono); font-size:10px; color:var(--text-dim)">
+      ⚠ Note: Perfect scores reflect the simulated synthetic dataset.
+      In production, scores will vary (expected AUC 0.88–0.95) based on real traffic distribution. Target: ≥30% FP reduction vs rule baseline.
+    </div>
+  </div>
+
+</main>
+
+<script>
+// Clock
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toISOString().replace('T',' ').slice(0,19) + ' UTC';
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Timeline
+const tl = document.getElementById('timeline');
+const tlData = Array.from({length: 48}, (_,i) => {
+  const base = 5 + Math.random() * 40;
+  const isAttack = Math.random() < 0.35;
+  return { val: Math.round(base + (isAttack ? 60 : 0)), isAttack };
+});
+const maxVal = Math.max(...tlData.map(d => d.val));
+tlData.forEach(d => {
+  const bar = document.createElement('div');
+  bar.className = 'tl-bar' + (d.isAttack ? ' attack' : '');
+  bar.style.height = (d.val / maxVal * 75) + 'px';
+  bar.setAttribute('data-val', d.val + ' events');
+  tl.appendChild(bar);
+});
+
+// Alert feed
+const ATTACKS = [
+  { ip:'185.220.101.10', layer:'auth',    type:'brute_force_ssh',     desc:'SSH credential spray - 287 attempts', ttp:'T1110.001', score:0.994, sev:'CRITICAL' },
+  { ip:'76.77.179.49',   layer:'network', type:'web_scan',            desc:'Masscan portsweep across /16',         ttp:'T1595.002', score:0.996, sev:'CRITICAL' },
+  { ip:'51.15.98.44',    layer:'http',    type:'sqli',                 desc:"SQLi payload in POST body",           ttp:'T1190',     score:0.987, sev:'CRITICAL' },
+  { ip:'199.249.230.87', layer:'network', type:'dns_amplification',   desc:'DNS amplification via UDP/53',        ttp:'T1498.002', score:0.991, sev:'CRITICAL' },
+  { ip:'23.129.64.55',   layer:'http',    type:'lfi',                  desc:'Path traversal ../../../../etc/shadow',ttp:'T1083',    score:0.982, sev:'CRITICAL' },
+  { ip:'104.21.44.32',   layer:'system',  type:'post_exploit',        desc:'nc -e /bin/bash spawned',             ttp:'T1059',     score:0.978, sev:'CRITICAL' },
+  { ip:'192.42.116.22',  layer:'http',    type:'rce',                  desc:'Curl pipe-to-bash payload detected',  ttp:'T1059',    score:0.975, sev:'CRITICAL' },
+  { ip:'171.25.193.11',  layer:'auth',    type:'credential_stuffing', desc:'1,200+ unique credentials tried',     ttp:'T1110.004', score:0.971, sev:'CRITICAL' },
+  { ip:'87.109.93.102',  layer:'network', type:'smb_exploit',         desc:'SMB/445 exploit attempt (EternalBlue)',ttp:'T1210',    score:0.968, sev:'CRITICAL' },
+  { ip:'173.244.76.69',  layer:'http',    type:'cms_scan',            desc:'WPScan targeting wp-login.php',       ttp:'T1595.002', score:0.961, sev:'CRITICAL' },
+  { ip:'77.247.181.33',  layer:'http',    type:'xss',                  desc:'Reflected XSS via query param',       ttp:'T1059.007', score:0.945, sev:'CRITICAL' },
+  { ip:'104.244.72.115', layer:'auth',    type:'brute_force',         desc:'FTP brute - 94 attempts',             ttp:'T1110.001', score:0.941, sev:'CRITICAL' },
+];
+
+const feed = document.getElementById('alertFeed');
+let alertIdx = 0;
+
+function addAlert() {
+  const a = ATTACKS[alertIdx % ATTACKS.length];
+  alertIdx++;
+  const now = new Date().toISOString().slice(11,19);
+  const item = document.createElement('div');
+  item.className = 'alert-item';
+  item.innerHTML = `
+    <div class="sev-dot sev-${a.sev}"></div>
+    <div class="alert-ip">${a.ip}</div>
+    <div style="color:var(--text-dim);font-size:10px">[${a.layer.toUpperCase()}]</div>
+    <div class="alert-desc">${a.desc}</div>
+    <div class="alert-ttp">${a.ttp}</div>
+    <div class="alert-score">${a.score.toFixed(3)}</div>
+  `;
+  feed.insertBefore(item, feed.firstChild);
+  if (feed.children.length > 20) feed.removeChild(feed.lastChild);
+}
+
+// Populate initial alerts
+ATTACKS.forEach(() => addAlert());
+
+// Add new alert every few seconds
+setInterval(() => {
+  if (Math.random() < 0.6) addAlert();
+}, 2800);
+
+// Animate KPIs
+function animateCount(el, target, suffix='') {
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.round(current).toLocaleString() + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 16);
+}
+
+setTimeout(() => {
+  animateCount(document.getElementById('kpi-events'), 3400);
+  animateCount(document.getElementById('kpi-alerts'), 1025);
+  animateCount(document.getElementById('kpi-campaigns'), 199);
+}, 300);
+</script>
+</body>
+</html>
