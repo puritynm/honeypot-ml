@@ -119,21 +119,23 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 .alert-list::-webkit-scrollbar{width:3px}
 .alert-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
-.alert-row{display:flex;align-items:stretch;border-radius:var(--rs);background:var(--surface2);overflow:hidden;animation:fadeIn .3s ease}
+/* single unified alert row — reflows on mobile via CSS alone */
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1}}
-.alert-accent{width:3px;flex-shrink:0}
-.alert-body{flex:1;display:flex;align-items:center;gap:8px;padding:7px 10px;min-width:0}
-.alert-ip{font-family:var(--mono);font-size:11px;color:var(--text);flex-shrink:0;width:108px}
+.alert-row{
+  border-radius:var(--rs);background:var(--surface2);
+  overflow:hidden;animation:fadeIn .3s ease;
+  border-left:3px solid #ccc;
+  padding:7px 10px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.ar-top{display:flex;align-items:center;gap:8px;min-width:0}
+.ar-bot{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.alert-ip{font-family:var(--mono);font-size:11px;color:var(--text);flex-shrink:0;min-width:0}
 .alert-tag{font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;background:var(--surface);border:0.5px solid var(--border2);color:var(--text2);text-transform:uppercase;letter-spacing:.3px;flex-shrink:0;white-space:nowrap}
-.alert-desc{font-size:11px;color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ar-spacer{flex:1}
+.alert-desc{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
 .alert-ttp{font-family:var(--mono);font-size:10px;color:var(--blue);flex-shrink:0;white-space:nowrap}
-.alert-score{font-family:var(--mono);font-size:11px;font-weight:500;flex-shrink:0;width:36px;text-align:right}
-
-/* mobile alert: stack into 2 lines */
-.alert-row-mobile{display:none;border-radius:var(--rs);background:var(--surface2);overflow:hidden;animation:fadeIn .3s ease;margin-bottom:4px}
-.arm-top{display:flex;align-items:center;gap:8px;padding:8px 10px 4px}
-.arm-bot{display:flex;align-items:center;justify-content:space-between;padding:0 10px 7px;gap:8px}
-.arm-accent{width:3px;align-self:stretch;flex-shrink:0;border-radius:0}
+.alert-score{font-family:var(--mono);font-size:11px;font-weight:500;flex-shrink:0;white-space:nowrap}
 
 /* ── Sev bars ── */
 .sev-list{display:flex;flex-direction:column;gap:8px}
@@ -250,9 +252,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
   /* cards smaller padding */
   .card{padding:14px}
 
-  /* alert rows: switch to mobile 2-line layout */
-  .alert-row{display:none}
-  .alert-row-mobile{display:flex}
+  /* alert rows need no change — they already stack vertically */
 
   /* mitre: 2 cols on mobile */
   .mitre-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -573,58 +573,32 @@ const ALERTS=[
   {ip:'104.244.72.115',layer:'AUTH', desc:'FTP brute force — 94 attempts',         ttp:'T1110.001',score:0.741,c:'#92400e'},
 ];
 
-// desktop alert row
+// single alert row — works on all screen sizes
 function makeAlertRow(a){
   const r=document.createElement('div');
   r.className='alert-row';
+  r.style.borderLeftColor=a.c;
   r.innerHTML=
-    `<div class="alert-accent" style="background:${a.c}"></div>`+
-    `<div class="alert-body">`+
+    `<div class="ar-top">`+
       `<div class="alert-ip">${a.ip}</div>`+
       `<div class="alert-tag">${a.layer}</div>`+
+      `<div class="ar-spacer"></div>`+
+      `<div class="alert-score" style="color:${a.c}">${a.score.toFixed(3)}</div>`+
+    `</div>`+
+    `<div class="ar-bot">`+
       `<div class="alert-desc">${a.desc}</div>`+
       `<div class="alert-ttp">${a.ttp}</div>`+
-      `<div class="alert-score" style="color:${a.c}">${a.score.toFixed(3)}</div>`+
     `</div>`;
   return r;
-}
-
-// mobile alert row (2 lines, no fixed widths)
-function makeMobileRow(a){
-  const r=document.createElement('div');
-  r.className='alert-row-mobile';
-  r.style.borderLeft=`3px solid ${a.c}`;
-  r.innerHTML=
-    `<div style="padding:8px 10px">`+
-      `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">`+
-        `<span style="font-family:var(--mono);font-size:11px;color:var(--text)">${a.ip}</span>`+
-        `<span class="alert-tag">${a.layer}</span>`+
-      `</div>`+
-      `<div style="font-size:11px;color:var(--text2);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.desc}</div>`+
-      `<div style="display:flex;align-items:center;justify-content:space-between">`+
-        `<span style="font-family:var(--mono);font-size:10px;color:var(--blue)">${a.ttp}</span>`+
-        `<span style="font-family:var(--mono);font-size:11px;font-weight:500;color:${a.c}">${a.score.toFixed(3)}</span>`+
-      `</div>`+
-    `</div>`;
-  return r;
-}
-
-function makeRow(a){
-  // render both; CSS shows/hides per breakpoint
-  const wrap=document.createElement('div');
-  wrap.style.cssText='display:contents';
-  wrap.appendChild(makeAlertRow(a));
-  wrap.appendChild(makeMobileRow(a));
-  return wrap;
 }
 
 // overview live feed
 const feed=document.getElementById('alertFeed');
 let idx=0;
 function addAlert(a){
-  feed.insertBefore(makeRow(a),feed.firstChild);
-  if(feed.children.length>28)feed.removeChild(feed.lastChild);
-  document.getElementById('alertBadge').textContent=Math.min(feed.children.length/2,14)+' active';
+  feed.insertBefore(makeAlertRow(a),feed.firstChild);
+  if(feed.children.length>14)feed.removeChild(feed.lastChild);
+  document.getElementById('alertBadge').textContent=feed.children.length+' active';
 }
 ALERTS.forEach(a=>addAlert(a));
 setInterval(()=>{if(Math.random()<.55){addAlert(ALERTS[idx%ALERTS.length]);idx++}},2800);
@@ -632,9 +606,7 @@ setInterval(()=>{if(Math.random()<.55){addAlert(ALERTS[idx%ALERTS.length]);idx++
 // alerts page full feed
 const fullFeed=document.getElementById('alertFeedFull');
 [...ALERTS,...ALERTS].forEach((a,i)=>{
-  const clone={...a,score:+(a.score-(i*0.003)).toFixed(3)};
-  fullFeed.appendChild(makeAlertRow(clone));
-  fullFeed.appendChild(makeMobileRow(clone));
+  fullFeed.appendChild(makeAlertRow({...a,score:+(a.score-(i*0.003)).toFixed(3)}));
 });
 document.getElementById('alertBadge2').textContent=ALERTS.length*2+' events';
 
