@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Honeypot ML · SOC Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#f8f9fb;--surface:#fff;--surface2:#f2f4f7;
-  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.12);
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.13);
   --text:#111827;--text2:#6b7280;--text3:#9ca3af;
   --blue:#1d6fb8;--blue-bg:#eff6ff;--blue-t:#1e40af;
   --red:#c0392b;--red-bg:#fef2f2;--red-t:#991b1b;
@@ -19,6 +19,7 @@
   --purple:#5b21b6;
   --r:10px;--rs:6px;
   --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --pad:20px;
 }
 @media(prefers-color-scheme:dark){:root{
   --bg:#0f1117;--surface:#1a1d27;--surface2:#22263a;
@@ -29,48 +30,82 @@
   --amber:#fbbf24;--amber-bg:#451a03;
   --green:#4ade80;--green-bg:#052e16;
 }}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
 
-/* topbar */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:56px;background:var(--surface);border-bottom:0.5px solid var(--border2);position:sticky;top:0;z-index:100}
-.topbar-l{display:flex;align-items:center;gap:14px}
-.logo{width:34px;height:34px;border-radius:8px;background:#1d6fb8;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.brand-name{font-size:15px;font-weight:600;color:var(--text)}
-.brand-sub{font-size:11px;color:var(--text3);margin-top:1px}
-.sep{width:0.5px;height:28px;background:var(--border2);flex-shrink:0}
-.nav{display:flex;gap:2px}
-.nav-item{padding:5px 12px;border-radius:var(--rs);font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;user-select:none}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;-webkit-text-size-adjust:100%}
+
+/* ── Topbar ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 var(--pad);height:52px;
+  background:var(--surface);border-bottom:0.5px solid var(--border2);
+  position:sticky;top:0;z-index:200;
+  gap:12px;
+}
+.topbar-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo{width:32px;height:32px;border-radius:7px;background:#1d6fb8;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.brand-name{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap}
+.brand-sub{font-size:10px;color:var(--text3);margin-top:1px;white-space:nowrap}
+.sep{width:0.5px;height:24px;background:var(--border2);flex-shrink:0}
+.topbar-r{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.live{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--green);white-space:nowrap}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.clock{font-family:var(--mono);font-size:11px;color:var(--text3);white-space:nowrap}
+
+/* ── Bottom nav (mobile) ── */
+.bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:var(--surface);border-top:0.5px solid var(--border2);
+  padding:6px 0 max(6px,env(safe-area-inset-bottom));
+}
+.bottom-nav-inner{display:flex;justify-content:space-around}
+.bn-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:4px 12px;border-radius:var(--rs);cursor:pointer;
+  font-size:10px;color:var(--text3);transition:all .15s;flex:1;
+  user-select:none;-webkit-tap-highlight-color:transparent;
+}
+.bn-item.active{color:var(--blue)}
+.bn-icon{font-size:18px;line-height:1}
+
+/* ── Desktop nav ── */
+.top-nav{display:flex;gap:2px}
+.nav-item{padding:4px 10px;border-radius:var(--rs);font-size:12px;color:var(--text2);cursor:pointer;transition:all .15s;user-select:none;white-space:nowrap}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:var(--blue-bg);color:var(--blue-t);font-weight:500}
-.topbar-r{display:flex;align-items:center;gap:14px}
-.live{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--green)}
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
-.clock{font-family:var(--mono);font-size:12px;color:var(--text3)}
 
-/* page panels */
+/* ── Pages ── */
 .page{display:none}.page.active{display:block}
-.main{padding:20px 28px;max-width:1400px;margin:0 auto}
+.main{padding:16px var(--pad) 80px;max-width:1400px;margin:0 auto}
 
-/* kpis */
-.kpi-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}
-.kpi{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:16px 18px}
-.kpi-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);margin-bottom:8px}
-.kpi-val{font-size:28px;font-weight:600;line-height:1;color:var(--text)}
+/* ── KPI strip ── */
+.kpi-strip{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;margin-bottom:14px;
+}
+.kpi{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.kpi-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);margin-bottom:6px}
+.kpi-val{font-size:24px;font-weight:600;line-height:1;color:var(--text)}
 .kpi-val.blue{color:var(--blue)}.kpi-val.red{color:var(--red)}.kpi-val.green{color:var(--green)}.kpi-val.amber{color:var(--amber)}
-.kpi-meta{font-size:11px;color:var(--text3);margin-top:5px}
+.kpi-meta{font-size:10px;color:var(--text3);margin-top:4px}
 
-/* grid rows */
-.row-2-1{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
-.row-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px}
-.row-1{margin-bottom:16px}
-.col-stack{display:flex;flex-direction:column;gap:16px}
+/* ── Grid layouts ── */
+.row-2-1{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px}
+.row-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.row-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.row-1{margin-bottom:14px}
+.col-stack{display:flex;flex-direction:column;gap:14px}
 
-/* card */
-.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:18px 20px}
-.card-title{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:3px}
-.card-sub{font-size:11px;color:var(--text3);margin-bottom:14px}
-.divider{border-top:0.5px solid var(--border);margin:14px 0 12px}
+/* ── Card ── */
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:16px 18px}
+.card-title{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.card-sub{font-size:11px;color:var(--text3);margin-bottom:12px}
+.divider{border-top:0.5px solid var(--border);margin:12px 0 10px}
+.page-header{margin-bottom:16px}
+.page-header h2{font-size:17px;font-weight:600;color:var(--text)}
+.page-header p{font-size:12px;color:var(--text3);margin-top:3px}
 
 .badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;display:inline-block}
 .badge-blue{background:var(--blue-bg);color:var(--blue-t)}
@@ -78,144 +113,176 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 .badge-green{background:var(--green-bg);color:var(--green)}
 .badge-amber{background:var(--amber-bg);color:var(--amber)}
 
-/* ── FIXED: alert rows use flex column, not grid ── */
-.alert-list{display:flex;flex-direction:column;gap:4px;max-height:320px;overflow-y:auto}
+/* ── Alert rows ── */
+.alert-list{display:flex;flex-direction:column;gap:4px;max-height:340px;overflow-y:auto}
+.alert-list.tall{max-height:520px}
 .alert-list::-webkit-scrollbar{width:3px}
 .alert-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
-.alert-row{
-  display:flex;align-items:stretch;
-  border-radius:var(--rs);background:var(--surface2);
-  overflow:hidden;animation:fadeIn .3s ease;min-height:36px;
-}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-
+.alert-row{display:flex;align-items:stretch;border-radius:var(--rs);background:var(--surface2);overflow:hidden;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1}}
 .alert-accent{width:3px;flex-shrink:0}
+.alert-body{flex:1;display:flex;align-items:center;gap:8px;padding:7px 10px;min-width:0}
+.alert-ip{font-family:var(--mono);font-size:11px;color:var(--text);flex-shrink:0;width:108px}
+.alert-tag{font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;background:var(--surface);border:0.5px solid var(--border2);color:var(--text2);text-transform:uppercase;letter-spacing:.3px;flex-shrink:0;white-space:nowrap}
+.alert-desc{font-size:11px;color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.alert-ttp{font-family:var(--mono);font-size:10px;color:var(--blue);flex-shrink:0;white-space:nowrap}
+.alert-score{font-family:var(--mono);font-size:11px;font-weight:500;flex-shrink:0;width:36px;text-align:right}
 
-.alert-body{
-  flex:1;
-  display:flex;align-items:center;
-  gap:10px;
-  padding:7px 12px;
-  min-width:0; /* crucial: allows children to shrink */
-}
+/* mobile alert: stack into 2 lines */
+.alert-row-mobile{display:none;border-radius:var(--rs);background:var(--surface2);overflow:hidden;animation:fadeIn .3s ease;margin-bottom:4px}
+.arm-top{display:flex;align-items:center;gap:8px;padding:8px 10px 4px}
+.arm-bot{display:flex;align-items:center;justify-content:space-between;padding:0 10px 7px;gap:8px}
+.arm-accent{width:3px;align-self:stretch;flex-shrink:0;border-radius:0}
 
-.alert-ip{
-  font-family:var(--mono);font-size:11px;color:var(--text);
-  flex-shrink:0;width:118px;
-}
-.alert-tag{
-  font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;
-  text-align:center;background:var(--surface);
-  border:0.5px solid var(--border2);color:var(--text2);
-  text-transform:uppercase;letter-spacing:.3px;
-  flex-shrink:0;white-space:nowrap;
-}
-.alert-desc{
-  font-size:11px;color:var(--text2);
-  flex:1;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  min-width:0;
-}
-.alert-ttp{
-  font-family:var(--mono);font-size:10px;color:var(--blue);
-  flex-shrink:0;text-align:right;white-space:nowrap;
-}
-.alert-score{
-  font-family:var(--mono);font-size:11px;font-weight:500;
-  flex-shrink:0;text-align:right;width:38px;
-}
-
-/* sev bars */
-.sev-list{display:flex;flex-direction:column;gap:9px}
+/* ── Sev bars ── */
+.sev-list{display:flex;flex-direction:column;gap:8px}
 .sev-row{display:flex;align-items:center;gap:10px}
 .sev-name{font-size:11px;color:var(--text2);width:52px;flex-shrink:0}
 .sev-track{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
 .sev-fill{height:100%;border-radius:3px}
-.sev-num{font-family:var(--mono);font-size:11px;color:var(--text);width:32px;text-align:right;flex-shrink:0}
+.sev-num{font-family:var(--mono);font-size:11px;color:var(--text);width:30px;text-align:right;flex-shrink:0}
 
-/* layer bars */
-.layer-list{display:flex;flex-direction:column;gap:9px}
+/* ── Layer bars ── */
+.layer-list{display:flex;flex-direction:column;gap:8px}
 .layer-row{display:flex;align-items:center;gap:10px}
 .layer-name{font-size:11px;color:var(--text2);width:52px;flex-shrink:0}
-.layer-track{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.layer-track{flex:1;height:7px;background:var(--surface2);border-radius:4px;overflow:hidden}
 .layer-fill{height:100%;border-radius:4px}
-.layer-num{font-family:var(--mono);font-size:11px;color:var(--text);width:40px;text-align:right;flex-shrink:0}
+.layer-num{font-family:var(--mono);font-size:11px;color:var(--text);width:38px;text-align:right;flex-shrink:0}
 
-/* fp table */
+/* ── FP table ── */
 .fp-table{width:100%;border-collapse:collapse}
-.fp-table th{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);padding:0 0 10px;text-align:left;border-bottom:0.5px solid var(--border2)}
-.fp-table td{padding:9px 0;border-bottom:0.5px solid var(--border);font-size:12px;vertical-align:middle}
+.fp-table th{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);padding:0 0 8px;text-align:left;border-bottom:0.5px solid var(--border2)}
+.fp-table td{padding:8px 0;border-bottom:0.5px solid var(--border);font-size:12px;vertical-align:middle}
 .fp-table tr:last-child td{border-bottom:none}
 .layer-cell{color:var(--text2)}
 .num-red{font-family:var(--mono);color:var(--red)}
 .num-green{font-family:var(--mono);color:var(--green)}
 .cut-cell{display:flex;align-items:center;gap:6px}
-.cut-track{width:48px;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;flex-shrink:0}
+.cut-track{width:40px;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;flex-shrink:0}
 .cut-fill{height:100%;background:var(--green);border-radius:2px}
 .cut-pct{font-family:var(--mono);font-size:11px;color:var(--green)}
 
-/* features */
-.feat-list{display:flex;flex-direction:column;gap:8px}
+/* ── Features ── */
+.feat-list{display:flex;flex-direction:column;gap:7px}
 .feat-row{display:flex;align-items:center;gap:8px}
-.feat-name{font-size:11px;color:var(--text2);flex:1;min-width:0}
-.feat-track{width:72px;height:4px;background:var(--surface2);border-radius:2px;flex-shrink:0;overflow:hidden}
+.feat-name{font-size:11px;color:var(--text2);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feat-track{width:64px;height:4px;background:var(--surface2);border-radius:2px;flex-shrink:0;overflow:hidden}
 .feat-fill{height:100%;background:var(--blue);border-radius:2px}
 .feat-pct{font-family:var(--mono);font-size:10px;color:var(--text3);width:34px;text-align:right;flex-shrink:0}
 
-/* mitre */
-.mitre-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-.mitre-cell{border-radius:var(--rs);padding:9px 10px;border:0.5px solid var(--border);background:var(--surface2)}
+/* ── MITRE ── */
+.mitre-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.mitre-cell{border-radius:var(--rs);padding:8px;border:0.5px solid var(--border);background:var(--surface2)}
 .mitre-cell.h1{background:var(--red-bg);border-color:rgba(192,57,43,.2)}
 .mitre-cell.h2{background:var(--amber-bg);border-color:rgba(146,64,14,.2)}
 .mitre-cell.h3{background:var(--blue-bg);border-color:rgba(29,111,184,.2)}
-.mitre-tid{font-family:var(--mono);font-size:9px;color:var(--text3);margin-bottom:3px}
+.mitre-tid{font-family:var(--mono);font-size:9px;color:var(--text3);margin-bottom:2px}
 .mitre-cell.h1 .mitre-tid{color:var(--red-t)}
 .mitre-cell.h2 .mitre-tid{color:var(--amber)}
 .mitre-cell.h3 .mitre-tid{color:var(--blue-t)}
-.mitre-count{font-size:20px;font-weight:600;color:var(--text);line-height:1}
+.mitre-count{font-size:18px;font-weight:600;color:var(--text);line-height:1}
 .mitre-cell.h1 .mitre-count{color:var(--red)}
 .mitre-cell.h2 .mitre-count{color:var(--amber)}
 .mitre-cell.h3 .mitre-count{color:var(--blue)}
-.mitre-name{font-size:10px;color:var(--text3);margin-top:3px;line-height:1.3}
+.mitre-name{font-size:9px;color:var(--text3);margin-top:2px;line-height:1.3}
 
-/* campaigns table */
-.data-table{width:100%;border-collapse:collapse}
-.data-table th{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);padding:0 12px 10px 0;text-align:left;border-bottom:0.5px solid var(--border2)}
-.data-table td{padding:10px 12px 10px 0;border-bottom:0.5px solid var(--border);font-size:12px;vertical-align:middle;color:var(--text2)}
+/* ── Data table (scrollable on mobile) ── */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.data-table{width:100%;border-collapse:collapse;min-width:480px}
+.data-table th{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);padding:0 10px 8px 0;text-align:left;border-bottom:0.5px solid var(--border2);white-space:nowrap}
+.data-table td{padding:9px 10px 9px 0;border-bottom:0.5px solid var(--border);font-size:12px;vertical-align:middle;color:var(--text2);white-space:nowrap}
 .data-table td:first-child{font-family:var(--mono);color:var(--blue);font-size:11px}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:var(--surface2)}
 
-/* model metrics */
-.model-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
-.model-card{background:var(--surface2);border-radius:var(--r);padding:16px}
-.model-layer{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:8px}
-.model-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:12px}
-.metric-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+/* ── Model cards ── */
+.model-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.model-card{background:var(--surface2);border-radius:var(--r);padding:14px}
+.model-layer{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:6px}
+.model-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:10px}
+.metric-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
 .metric-label{font-size:11px;color:var(--text3)}
 .metric-val{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--green)}
 
-/* page header */
-.page-header{margin-bottom:20px}
-.page-header h2{font-size:18px;font-weight:600;color:var(--text)}
-.page-header p{font-size:13px;color:var(--text3);margin-top:4px}
+/* ══════════════════════════════════════
+   TABLET  ≤ 900px
+══════════════════════════════════════ */
+@media(max-width:900px){
+  :root{--pad:16px}
+
+  /* hide desktop nav, show brand only */
+  .top-nav{display:none}
+  .sep{display:none}
+  .brand-sub{display:none}
+
+  /* show bottom nav */
+  .bottom-nav{display:block}
+
+  /* add padding so content clears bottom nav */
+  .main{padding-bottom:90px}
+
+  /* KPI: 2 columns on tablet */
+  .kpi-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi-strip .kpi:last-child{grid-column:1/-1}
+
+  /* layouts collapse to single column */
+  .row-2-1,.row-3,.row-2{grid-template-columns:1fr}
+  .model-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ══════════════════════════════════════
+   MOBILE  ≤ 480px
+══════════════════════════════════════ */
+@media(max-width:480px){
+  :root{--pad:12px}
+
+  /* topbar: hide clock to save space */
+  .clock{display:none}
+
+  /* KPI: 2 columns, smaller */
+  .kpi-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .kpi{padding:12px 14px}
+  .kpi-val{font-size:20px}
+  .kpi-strip .kpi:last-child{grid-column:1/-1}
+
+  /* cards smaller padding */
+  .card{padding:14px}
+
+  /* alert rows: switch to mobile 2-line layout */
+  .alert-row{display:none}
+  .alert-row-mobile{display:flex}
+
+  /* mitre: 2 cols on mobile */
+  .mitre-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+  /* model cards: single column */
+  .model-grid{grid-template-columns:1fr}
+
+  /* page header smaller */
+  .page-header h2{font-size:15px}
+}
 </style>
 </head>
 <body>
 
+<!-- ── Topbar ── -->
 <div class="topbar">
-  <div class="topbar-l">
+  <div class="topbar-brand">
     <div class="logo">&#x1F36F;</div>
-    <div><div class="brand-name">Honeypot ML</div><div class="brand-sub">Detection System</div></div>
-    <div class="sep"></div>
-    <nav class="nav">
-      <div class="nav-item active" onclick="showPage('overview',this)">Overview</div>
-      <div class="nav-item" onclick="showPage('alerts',this)">Alerts</div>
-      <div class="nav-item" onclick="showPage('campaigns',this)">Campaigns</div>
-      <div class="nav-item" onclick="showPage('models',this)">Models</div>
-    </nav>
+    <div>
+      <div class="brand-name">Honeypot ML</div>
+      <div class="brand-sub">Detection System</div>
+    </div>
   </div>
+  <div class="sep"></div>
+  <nav class="top-nav">
+    <div class="nav-item active" onclick="showPage('overview',this)">Overview</div>
+    <div class="nav-item" onclick="showPage('alerts',this)">Alerts</div>
+    <div class="nav-item" onclick="showPage('campaigns',this)">Campaigns</div>
+    <div class="nav-item" onclick="showPage('models',this)">Models</div>
+  </nav>
   <div class="topbar-r">
     <div class="live"><div class="live-dot"></div>Live</div>
     <div class="sep"></div>
@@ -223,21 +290,39 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
   </div>
 </div>
 
-<!-- ══ OVERVIEW PAGE ══ -->
+<!-- ── Bottom nav (mobile/tablet) ── -->
+<div class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <div class="bn-item active" onclick="showPage('overview',null,'overview')">
+      <div class="bn-icon">&#x1F4CA;</div><div>Overview</div>
+    </div>
+    <div class="bn-item" onclick="showPage('alerts',null,'alerts')">
+      <div class="bn-icon">&#x1F6A8;</div><div>Alerts</div>
+    </div>
+    <div class="bn-item" onclick="showPage('campaigns',null,'campaigns')">
+      <div class="bn-icon">&#x1F5FA;</div><div>Campaigns</div>
+    </div>
+    <div class="bn-item" onclick="showPage('models',null,'models')">
+      <div class="bn-icon">&#x1F9E0;</div><div>Models</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ OVERVIEW ══════════════════ -->
 <div id="page-overview" class="page active">
 <div class="main">
   <div class="kpi-strip">
-    <div class="kpi"><div class="kpi-label">Events collected</div><div class="kpi-val blue">3,400</div><div class="kpi-meta">4 honeypot layers</div></div>
-    <div class="kpi"><div class="kpi-label">Active alerts</div><div class="kpi-val red">1,025</div><div class="kpi-meta">ML-scored &amp; prioritised</div></div>
-    <div class="kpi"><div class="kpi-label">FP reduction</div><div class="kpi-val green">~30%</div><div class="kpi-meta">vs rule-based baseline</div></div>
-    <div class="kpi"><div class="kpi-label">Campaigns</div><div class="kpi-val amber">199</div><div class="kpi-meta">Active threat actors</div></div>
-    <div class="kpi"><div class="kpi-label">AUC-ROC</div><div class="kpi-val green">1.000</div><div class="kpi-meta">Random Forest &middot; CV=5</div></div>
+    <div class="kpi"><div class="kpi-label">Events</div><div class="kpi-val blue">3,400</div><div class="kpi-meta">4 honeypot layers</div></div>
+    <div class="kpi"><div class="kpi-label">Alerts</div><div class="kpi-val red">1,025</div><div class="kpi-meta">ML-scored</div></div>
+    <div class="kpi"><div class="kpi-label">FP Reduction</div><div class="kpi-val green">~30%</div><div class="kpi-meta">vs rules baseline</div></div>
+    <div class="kpi"><div class="kpi-label">Campaigns</div><div class="kpi-val amber">199</div><div class="kpi-meta">Active actors</div></div>
+    <div class="kpi"><div class="kpi-label">AUC-ROC</div><div class="kpi-val green">1.000</div><div class="kpi-meta">RF · CV=5</div></div>
   </div>
 
   <div class="row-2-1">
     <div class="card">
       <div class="card-title">Priority alert queue <span class="badge badge-red" id="alertBadge">12 active</span></div>
-      <div class="card-sub">ML-scored &middot; MITRE TTP tagged &middot; deduplicated within 15-min windows</div>
+      <div class="card-sub">ML-scored · MITRE tagged · deduplicated 15-min</div>
       <div class="alert-list" id="alertFeed"></div>
     </div>
     <div class="col-stack">
@@ -265,9 +350,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
   <div class="row-3">
     <div class="card">
       <div class="card-title">False positive reduction</div>
-      <div class="card-sub">ML vs rule-based detector &middot; per layer</div>
+      <div class="card-sub">ML vs rule-based · per layer</div>
       <table class="fp-table">
-        <thead><tr><th>Layer</th><th>Rules FP</th><th>ML FP</th><th>Reduction</th></tr></thead>
+        <thead><tr><th>Layer</th><th>Rules</th><th>ML</th><th>Cut</th></tr></thead>
         <tbody>
           <tr><td class="layer-cell">Network</td><td class="num-red">407</td><td class="num-green">0</td><td><div class="cut-cell"><div class="cut-track"><div class="cut-fill" style="width:100%"></div></div><span class="cut-pct">100%</span></div></td></tr>
           <tr><td class="layer-cell">HTTP</td><td class="num-red">188</td><td class="num-green">0</td><td><div class="cut-cell"><div class="cut-track"><div class="cut-fill" style="width:100%"></div></div><span class="cut-pct">100%</span></div></td></tr>
@@ -291,7 +376,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
       </div>
     </div>
     <div class="card">
-      <div class="card-title">MITRE ATT&amp;CK coverage</div>
+      <div class="card-title">MITRE ATT&amp;CK</div>
       <div class="card-sub">TTP frequency across all alerts</div>
       <div class="mitre-grid">
         <div class="mitre-cell h1"><div class="mitre-tid">T1110</div><div class="mitre-count">312</div><div class="mitre-name">Brute Force</div></div>
@@ -300,169 +385,135 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
         <div class="mitre-cell h2"><div class="mitre-tid">T1059</div><div class="mitre-count">142</div><div class="mitre-name">Cmd &amp; Script</div></div>
         <div class="mitre-cell h3"><div class="mitre-tid">T1083</div><div class="mitre-count">118</div><div class="mitre-name">File Discovery</div></div>
         <div class="mitre-cell h3"><div class="mitre-tid">T1210</div><div class="mitre-count">96</div><div class="mitre-name">Remote Svc</div></div>
-        <div class="mitre-cell"><div class="mitre-tid">T1078</div><div class="mitre-count">84</div><div class="mitre-name">Valid Accounts</div></div>
-        <div class="mitre-cell"><div class="mitre-tid">T1090</div><div class="mitre-count">71</div><div class="mitre-name">Proxy / Tor</div></div>
+        <div class="mitre-cell"><div class="mitre-tid">T1078</div><div class="mitre-count">84</div><div class="mitre-name">Valid Accts</div></div>
+        <div class="mitre-cell"><div class="mitre-tid">T1090</div><div class="mitre-count">71</div><div class="mitre-name">Proxy/Tor</div></div>
       </div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ══ ALERTS PAGE ══ -->
+<!-- ══════════════════ ALERTS ══════════════════ -->
 <div id="page-alerts" class="page">
 <div class="main">
-  <div class="page-header">
-    <h2>All Alerts</h2>
-    <p>Full alert log &middot; ML-scored &middot; MITRE tagged &middot; sorted by risk score</p>
-  </div>
+  <div class="page-header"><h2>All Alerts</h2><p>Full alert log · ML-scored · MITRE tagged · sorted by risk</p></div>
   <div class="row-1">
     <div class="card">
       <div class="card-title">Alert log <span class="badge badge-red" id="alertBadge2">24 events</span></div>
-      <div class="card-sub">All layers &middot; deduplicated &middot; last 60 minutes</div>
-      <div class="alert-list" id="alertFeedFull" style="max-height:520px"></div>
+      <div class="card-sub">All layers · deduplicated · last 60 minutes</div>
+      <div class="alert-list tall" id="alertFeedFull"></div>
     </div>
   </div>
   <div class="row-3">
     <div class="card">
-      <div class="card-title">Alert breakdown</div>
-      <div class="card-sub">By attack type</div>
+      <div class="card-title">By attack type</div>
+      <div class="card-sub">Alert volume breakdown</div>
       <div class="sev-list">
         <div class="sev-row"><div class="sev-name">Brute force</div><div class="sev-track"><div class="sev-fill" style="width:78%;background:#c0392b"></div></div><div class="sev-num">312</div></div>
         <div class="sev-row"><div class="sev-name">Web scan</div><div class="sev-track"><div class="sev-fill" style="width:62%;background:#92400e"></div></div><div class="sev-num">247</div></div>
         <div class="sev-row"><div class="sev-name">Exploit</div><div class="sev-track"><div class="sev-fill" style="width:50%;background:#1d6fb8"></div></div><div class="sev-num">198</div></div>
-        <div class="sev-row"><div class="sev-name">RCE / LFI</div><div class="sev-track"><div class="sev-fill" style="width:36%;background:#5b21b6"></div></div><div class="sev-num">142</div></div>
+        <div class="sev-row"><div class="sev-name">RCE/LFI</div><div class="sev-track"><div class="sev-fill" style="width:36%;background:#5b21b6"></div></div><div class="sev-num">142</div></div>
         <div class="sev-row"><div class="sev-name">Recon</div><div class="sev-track"><div class="sev-fill" style="width:22%;background:#166534"></div></div><div class="sev-num">96</div></div>
       </div>
     </div>
     <div class="card">
       <div class="card-title">Top source IPs</div>
-      <div class="card-sub">By total alert volume</div>
-      <table class="data-table">
-        <thead><tr><th>IP Address</th><th>Alerts</th><th>Layer</th><th>Last seen</th></tr></thead>
-        <tbody>
-          <tr><td>185.220.101.10</td><td>47</td><td>AUTH</td><td>2s ago</td></tr>
-          <tr><td>199.249.230.87</td><td>38</td><td>NET</td><td>14s ago</td></tr>
-          <tr><td>51.15.98.44</td><td>31</td><td>HTTP</td><td>28s ago</td></tr>
-          <tr><td>23.129.64.55</td><td>26</td><td>HTTP</td><td>41s ago</td></tr>
-          <tr><td>77.247.181.33</td><td>19</td><td>HTTP</td><td>1m ago</td></tr>
-        </tbody>
-      </table>
+      <div class="card-sub">By alert volume</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>IP Address</th><th>Alerts</th><th>Layer</th><th>Last seen</th></tr></thead>
+          <tbody>
+            <tr><td>185.220.101.10</td><td>47</td><td>AUTH</td><td>2s ago</td></tr>
+            <tr><td>199.249.230.87</td><td>38</td><td>NET</td><td>14s ago</td></tr>
+            <tr><td>51.15.98.44</td><td>31</td><td>HTTP</td><td>28s ago</td></tr>
+            <tr><td>23.129.64.55</td><td>26</td><td>HTTP</td><td>41s ago</td></tr>
+            <tr><td>77.247.181.33</td><td>19</td><td>HTTP</td><td>1m ago</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="card">
       <div class="card-title">Suppression stats</div>
       <div class="card-sub">Deduplication effectiveness</div>
       <div class="sev-list" style="gap:14px">
-        <div>
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Total events processed</div>
-          <div style="font-size:22px;font-weight:600;color:var(--text)">2,065</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Alerts raised</div>
-          <div style="font-size:22px;font-weight:600;color:var(--red)">1,025</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Suppressed (dedup)</div>
-          <div style="font-size:22px;font-weight:600;color:var(--green)">1,040 <span style="font-size:13px;color:var(--text3)">(50.4%)</span></div>
-        </div>
+        <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Events processed</div><div style="font-size:22px;font-weight:600;color:var(--text)">2,065</div></div>
+        <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Alerts raised</div><div style="font-size:22px;font-weight:600;color:var(--red)">1,025</div></div>
+        <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px">Suppressed</div><div style="font-size:22px;font-weight:600;color:var(--green)">1,040 <span style="font-size:12px;color:var(--text3)">(50.4%)</span></div></div>
       </div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ══ CAMPAIGNS PAGE ══ -->
+<!-- ══════════════════ CAMPAIGNS ══════════════════ -->
 <div id="page-campaigns" class="page">
 <div class="main">
-  <div class="page-header">
-    <h2>Threat Campaigns</h2>
-    <p>Attacker clusters grouped by /16 IP prefix &middot; 199 active campaigns detected</p>
-  </div>
+  <div class="page-header"><h2>Threat Campaigns</h2><p>Attacker clusters grouped by /16 IP prefix · 199 active campaigns</p></div>
   <div class="row-1">
-    <div class="kpi-strip" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="kpi-strip" style="grid-template-columns:repeat(2,minmax(0,1fr))">
       <div class="kpi"><div class="kpi-label">Active campaigns</div><div class="kpi-val amber">199</div><div class="kpi-meta">Unique /16 prefixes</div></div>
-      <div class="kpi"><div class="kpi-label">Avg alerts/campaign</div><div class="kpi-val blue">5.2</div><div class="kpi-meta">Per threat cluster</div></div>
-      <div class="kpi"><div class="kpi-label">TOR exit nodes</div><div class="kpi-val red">34</div><div class="kpi-meta">Anonymised sources</div></div>
-      <div class="kpi"><div class="kpi-label">Multi-layer attacks</div><div class="kpi-val green">12</div><div class="kpi-meta">Campaigns hitting 2+ layers</div></div>
+      <div class="kpi"><div class="kpi-label">TOR exits</div><div class="kpi-val red">34</div><div class="kpi-meta">Anonymised sources</div></div>
+      <div class="kpi"><div class="kpi-label">Avg alerts</div><div class="kpi-val blue">5.2</div><div class="kpi-meta">Per cluster</div></div>
+      <div class="kpi"><div class="kpi-label">Multi-layer</div><div class="kpi-val green">12</div><div class="kpi-meta">Hitting 2+ layers</div></div>
     </div>
   </div>
   <div class="row-1">
     <div class="card">
       <div class="card-title">Campaign registry</div>
-      <div class="card-sub">Sorted by max severity &middot; showing top 15 campaigns</div>
-      <table class="data-table">
-        <thead><tr><th>Campaign ID</th><th>Max Severity</th><th>Alerts</th><th>Unique IPs</th><th>Layers</th><th>Top TTP</th><th>Last activity</th></tr></thead>
-        <tbody id="campaignTable"></tbody>
-      </table>
+      <div class="card-sub">Sorted by max severity · top 10 campaigns</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Campaign</th><th>Severity</th><th>Alerts</th><th>IPs</th><th>Layers</th><th>Top TTP</th><th>Last seen</th></tr></thead>
+          <tbody id="campaignTable"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ══ MODELS PAGE ══ -->
+<!-- ══════════════════ MODELS ══════════════════ -->
 <div id="page-models" class="page">
 <div class="main">
-  <div class="page-header">
-    <h2>Model Performance</h2>
-    <p>Supervised ML classifiers &middot; 5-fold stratified cross-validation &middot; trained per honeypot layer</p>
-  </div>
+  <div class="page-header"><h2>Model Performance</h2><p>Supervised ML classifiers · 5-fold stratified CV · trained per layer</p></div>
   <div class="model-grid">
     <div class="model-card">
-      <div class="model-layer">Network layer</div>
-      <div class="model-name">Random Forest</div>
+      <div class="model-layer">Network</div><div class="model-name">Random Forest</div>
       <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
-      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">23</div></div>
-      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">1,200</div></div>
     </div>
     <div class="model-card">
-      <div class="model-layer">Auth layer</div>
-      <div class="model-name">Random Forest</div>
+      <div class="model-layer">Auth</div><div class="model-name">Random Forest</div>
       <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
-      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">14</div></div>
-      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">600</div></div>
     </div>
     <div class="model-card">
-      <div class="model-layer">HTTP layer</div>
-      <div class="model-name">Random Forest</div>
+      <div class="model-layer">HTTP</div><div class="model-name">Random Forest</div>
       <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
-      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">21</div></div>
-      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">900</div></div>
     </div>
     <div class="model-card">
-      <div class="model-layer">System layer</div>
-      <div class="model-name">Random Forest</div>
+      <div class="model-layer">System</div><div class="model-name">Random Forest</div>
       <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
-      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1</div><div class="metric-val">1.000</div></div>
       <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">9</div></div>
-      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">700</div></div>
     </div>
   </div>
-  <div class="row-3">
+  <div class="row-2">
     <div class="card">
-      <div class="card-title">Candidate models compared</div>
-      <div class="card-sub">Cross-validation AUC-ROC per layer</div>
-      <table class="data-table">
-        <thead><tr><th>Model</th><th>Network</th><th>Auth</th><th>HTTP</th><th>System</th></tr></thead>
-        <tbody>
-          <tr><td style="color:var(--text);font-family:var(--sans)">Random Forest</td><td>1.000</td><td>1.000</td><td>1.000</td><td>1.000</td></tr>
-          <tr><td style="color:var(--text);font-family:var(--sans)">Gradient Boost</td><td>1.000</td><td>1.000</td><td>1.000</td><td>1.000</td></tr>
-          <tr><td style="color:var(--text);font-family:var(--sans)">Logistic Reg.</td><td>1.000</td><td>1.000</td><td>1.000</td><td>1.000</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">Detection threshold</div>
-      <div class="card-sub">Alert firing rules by ML probability</div>
+      <div class="card-title">Detection thresholds</div>
+      <div class="card-sub">Alert severity by ML probability score</div>
       <div class="sev-list" style="gap:10px">
         <div class="sev-row"><div class="sev-name" style="width:70px;color:var(--red);font-weight:500">Critical</div><div style="font-family:var(--mono);font-size:11px;color:var(--text2)">P &ge; 0.90</div></div>
         <div class="sev-row"><div class="sev-name" style="width:70px;color:var(--amber);font-weight:500">High</div><div style="font-family:var(--mono);font-size:11px;color:var(--text2)">P &ge; 0.70</div></div>
@@ -472,13 +523,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
       </div>
     </div>
     <div class="card">
-      <div class="card-title">Production notes</div>
-      <div class="card-sub">Expected real-world performance</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8">
-        <p style="margin-bottom:8px">Scores above reflect the synthetic training dataset. In production with real attack traffic, expect:</p>
-        <p style="margin-bottom:4px"><span style="color:var(--text);font-weight:500">AUC-ROC:</span> 0.88 &ndash; 0.95</p>
-        <p style="margin-bottom:4px"><span style="color:var(--text);font-weight:500">FP reduction:</span> ~30% vs rules</p>
-        <p style="margin-bottom:4px"><span style="color:var(--text);font-weight:500">Calibration:</span> Platt scaling (sigmoid)</p>
+      <div class="card-title">Production expectations</div>
+      <div class="card-sub">Real-world performance estimates</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.9">
+        <p style="margin-bottom:8px">Scores reflect synthetic training data. With real traffic expect:</p>
+        <p><span style="color:var(--text);font-weight:500">AUC-ROC:</span> 0.88 – 0.95</p>
+        <p><span style="color:var(--text);font-weight:500">FP reduction:</span> ~30% vs rule baseline</p>
+        <p><span style="color:var(--text);font-weight:500">Calibration:</span> Platt scaling (sigmoid)</p>
         <p><span style="color:var(--text);font-weight:500">Drift detection:</span> Retrain monthly</p>
       </div>
     </div>
@@ -491,30 +542,38 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 function tick(){document.getElementById('clock').textContent=new Date().toISOString().replace('T',' ').slice(0,19)+' UTC'}
 setInterval(tick,1000);tick();
 
-// tab navigation
-function showPage(name,el){
+// navigation — handles both top nav and bottom nav
+function showPage(name,el,bnName){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
-  el.classList.add('active');
+  // top nav
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el)el.classList.add('active');
+  // bottom nav
+  const bn=bnName||name;
+  document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));
+  const bnEl=document.querySelector(`.bn-item[onclick*="'${bn}'"]`);
+  if(bnEl)bnEl.classList.add('active');
+  window.scrollTo(0,0);
 }
 
 // alert data
 const ALERTS=[
-  {ip:'185.220.101.10',layer:'AUTH',  desc:'SSH credential spray — 287 attempts',    ttp:'T1110.001',score:0.994,c:'#c0392b'},
-  {ip:'76.77.179.49',  layer:'NET',   desc:'Masscan portsweep across /16 subnet',     ttp:'T1595.002',score:0.996,c:'#c0392b'},
-  {ip:'51.15.98.44',   layer:'HTTP',  desc:'SQLi payload detected in POST body',      ttp:'T1190',    score:0.987,c:'#c0392b'},
-  {ip:'199.249.230.87',layer:'NET',   desc:'DNS amplification via UDP/53',            ttp:'T1498.002',score:0.991,c:'#c0392b'},
-  {ip:'23.129.64.55',  layer:'HTTP',  desc:'Path traversal — /etc/shadow targeted',  ttp:'T1083',    score:0.982,c:'#c0392b'},
-  {ip:'104.21.44.32',  layer:'SYS',   desc:'nc -e /bin/bash spawned in container',   ttp:'T1059',    score:0.978,c:'#c0392b'},
-  {ip:'192.42.116.22', layer:'HTTP',  desc:'Curl pipe-to-bash payload detected',     ttp:'T1059',    score:0.975,c:'#c0392b'},
-  {ip:'171.25.193.11', layer:'AUTH',  desc:'1,200 unique credentials attempted',     ttp:'T1110.004',score:0.971,c:'#c0392b'},
-  {ip:'87.109.93.102', layer:'NET',   desc:'SMB/445 exploit — EternalBlue pattern',  ttp:'T1210',    score:0.968,c:'#c0392b'},
-  {ip:'173.244.76.69', layer:'HTTP',  desc:'WPScan targeting wp-login.php',          ttp:'T1595.002',score:0.861,c:'#92400e'},
-  {ip:'77.247.181.33', layer:'HTTP',  desc:'Reflected XSS via query parameter',      ttp:'T1059.007',score:0.845,c:'#92400e'},
-  {ip:'104.244.72.115',layer:'AUTH',  desc:'FTP brute force — 94 attempts logged',   ttp:'T1110.001',score:0.741,c:'#92400e'},
+  {ip:'185.220.101.10',layer:'AUTH', desc:'SSH credential spray — 287 attempts',   ttp:'T1110.001',score:0.994,c:'#c0392b'},
+  {ip:'76.77.179.49',  layer:'NET',  desc:'Masscan portsweep across /16 subnet',    ttp:'T1595.002',score:0.996,c:'#c0392b'},
+  {ip:'51.15.98.44',   layer:'HTTP', desc:'SQLi payload in POST body',              ttp:'T1190',    score:0.987,c:'#c0392b'},
+  {ip:'199.249.230.87',layer:'NET',  desc:'DNS amplification via UDP/53',           ttp:'T1498.002',score:0.991,c:'#c0392b'},
+  {ip:'23.129.64.55',  layer:'HTTP', desc:'Path traversal — /etc/shadow targeted', ttp:'T1083',    score:0.982,c:'#c0392b'},
+  {ip:'104.21.44.32',  layer:'SYS',  desc:'nc -e /bin/bash spawned',               ttp:'T1059',    score:0.978,c:'#c0392b'},
+  {ip:'192.42.116.22', layer:'HTTP', desc:'Curl pipe-to-bash detected',            ttp:'T1059',    score:0.975,c:'#c0392b'},
+  {ip:'171.25.193.11', layer:'AUTH', desc:'1,200 unique creds attempted',          ttp:'T1110.004',score:0.971,c:'#c0392b'},
+  {ip:'87.109.93.102', layer:'NET',  desc:'SMB/445 — EternalBlue pattern',         ttp:'T1210',    score:0.968,c:'#c0392b'},
+  {ip:'173.244.76.69', layer:'HTTP', desc:'WPScan on wp-login.php',                ttp:'T1595.002',score:0.861,c:'#92400e'},
+  {ip:'77.247.181.33', layer:'HTTP', desc:'Reflected XSS via query param',         ttp:'T1059.007',score:0.845,c:'#92400e'},
+  {ip:'104.244.72.115',layer:'AUTH', desc:'FTP brute force — 94 attempts',         ttp:'T1110.001',score:0.741,c:'#92400e'},
 ];
 
+// desktop alert row
 function makeAlertRow(a){
   const r=document.createElement('div');
   r.className='alert-row';
@@ -530,48 +589,76 @@ function makeAlertRow(a){
   return r;
 }
 
-// populate overview feed (live)
+// mobile alert row (2 lines, no fixed widths)
+function makeMobileRow(a){
+  const r=document.createElement('div');
+  r.className='alert-row-mobile';
+  r.style.borderLeft=`3px solid ${a.c}`;
+  r.innerHTML=
+    `<div style="padding:8px 10px">`+
+      `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">`+
+        `<span style="font-family:var(--mono);font-size:11px;color:var(--text)">${a.ip}</span>`+
+        `<span class="alert-tag">${a.layer}</span>`+
+      `</div>`+
+      `<div style="font-size:11px;color:var(--text2);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.desc}</div>`+
+      `<div style="display:flex;align-items:center;justify-content:space-between">`+
+        `<span style="font-family:var(--mono);font-size:10px;color:var(--blue)">${a.ttp}</span>`+
+        `<span style="font-family:var(--mono);font-size:11px;font-weight:500;color:${a.c}">${a.score.toFixed(3)}</span>`+
+      `</div>`+
+    `</div>`;
+  return r;
+}
+
+function makeRow(a){
+  // render both; CSS shows/hides per breakpoint
+  const wrap=document.createElement('div');
+  wrap.style.cssText='display:contents';
+  wrap.appendChild(makeAlertRow(a));
+  wrap.appendChild(makeMobileRow(a));
+  return wrap;
+}
+
+// overview live feed
 const feed=document.getElementById('alertFeed');
 let idx=0;
 function addAlert(a){
-  feed.insertBefore(makeAlertRow(a),feed.firstChild);
-  if(feed.children.length>14)feed.removeChild(feed.lastChild);
-  document.getElementById('alertBadge').textContent=Math.min(feed.children.length,14)+' active';
+  feed.insertBefore(makeRow(a),feed.firstChild);
+  if(feed.children.length>28)feed.removeChild(feed.lastChild);
+  document.getElementById('alertBadge').textContent=Math.min(feed.children.length/2,14)+' active';
 }
 ALERTS.forEach(a=>addAlert(a));
 setInterval(()=>{if(Math.random()<.55){addAlert(ALERTS[idx%ALERTS.length]);idx++}},2800);
 
-// populate alerts page full feed
+// alerts page full feed
 const fullFeed=document.getElementById('alertFeedFull');
 [...ALERTS,...ALERTS].forEach((a,i)=>{
-  const r=makeAlertRow({...a,score:+(a.score-(i*0.003)).toFixed(3)});
-  fullFeed.appendChild(r);
+  const clone={...a,score:+(a.score-(i*0.003)).toFixed(3)};
+  fullFeed.appendChild(makeAlertRow(clone));
+  fullFeed.appendChild(makeMobileRow(clone));
 });
-document.getElementById('alertBadge2').textContent=fullFeed.children.length+' events';
+document.getElementById('alertBadge2').textContent=ALERTS.length*2+' events';
 
-// populate campaigns table
+// campaigns table
 const campaigns=[
-  {id:'CAMP-A3F2',sev:'Critical',alerts:47,ips:3,layers:'AUTH, NET',ttp:'T1110.001',last:'2s ago'},
-  {id:'CAMP-B7D1',sev:'Critical',alerts:38,ips:2,layers:'NET',ttp:'T1498.002',last:'14s ago'},
-  {id:'CAMP-C9E4',sev:'Critical',alerts:31,ips:4,layers:'HTTP',ttp:'T1190',last:'28s ago'},
-  {id:'CAMP-D2A8',sev:'Critical',alerts:26,ips:2,layers:'HTTP',ttp:'T1083',last:'41s ago'},
-  {id:'CAMP-E5F3',sev:'High',alerts:19,ips:1,layers:'HTTP',ttp:'T1059.007',last:'1m ago'},
-  {id:'CAMP-F1B6',sev:'High',alerts:17,ips:2,layers:'AUTH',ttp:'T1110.001',last:'1m ago'},
-  {id:'CAMP-G8C0',sev:'High',alerts:14,ips:1,layers:'NET',ttp:'T1210',last:'2m ago'},
-  {id:'CAMP-H4D9',sev:'Medium',alerts:11,ips:3,layers:'HTTP, AUTH',ttp:'T1595.002',last:'3m ago'},
-  {id:'CAMP-I6E2',sev:'Medium',alerts:9,ips:1,layers:'SYS',ttp:'T1059',last:'4m ago'},
-  {id:'CAMP-J3A7',sev:'Medium',alerts:8,ips:2,layers:'AUTH',ttp:'T1110.004',last:'5m ago'},
+  {id:'CAMP-A3F2',sev:'Critical',alerts:47,ips:3,layers:'AUTH, NET', ttp:'T1110.001',last:'2s ago'},
+  {id:'CAMP-B7D1',sev:'Critical',alerts:38,ips:2,layers:'NET',       ttp:'T1498.002',last:'14s ago'},
+  {id:'CAMP-C9E4',sev:'Critical',alerts:31,ips:4,layers:'HTTP',      ttp:'T1190',    last:'28s ago'},
+  {id:'CAMP-D2A8',sev:'Critical',alerts:26,ips:2,layers:'HTTP',      ttp:'T1083',    last:'41s ago'},
+  {id:'CAMP-E5F3',sev:'High',    alerts:19,ips:1,layers:'HTTP',      ttp:'T1059.007',last:'1m ago'},
+  {id:'CAMP-F1B6',sev:'High',    alerts:17,ips:2,layers:'AUTH',      ttp:'T1110.001',last:'1m ago'},
+  {id:'CAMP-G8C0',sev:'High',    alerts:14,ips:1,layers:'NET',       ttp:'T1210',    last:'2m ago'},
+  {id:'CAMP-H4D9',sev:'Medium',  alerts:11,ips:3,layers:'HTTP, AUTH',ttp:'T1595.002',last:'3m ago'},
+  {id:'CAMP-I6E2',sev:'Medium',  alerts:9, ips:1,layers:'SYS',       ttp:'T1059',    last:'4m ago'},
+  {id:'CAMP-J3A7',sev:'Medium',  alerts:8, ips:2,layers:'AUTH',      ttp:'T1110.004',last:'5m ago'},
 ];
-const sevColor={'Critical':'var(--red)','High':'var(--amber)','Medium':'var(--blue)','Low':'var(--green)'};
+const sevColor={Critical:'var(--red)',High:'var(--amber)',Medium:'var(--blue)',Low:'var(--green)'};
 const tbody=document.getElementById('campaignTable');
 campaigns.forEach(c=>{
   const tr=document.createElement('tr');
   tr.innerHTML=
     `<td>${c.id}</td>`+
     `<td><span style="color:${sevColor[c.sev]};font-weight:500;font-size:11px">${c.sev}</span></td>`+
-    `<td>${c.alerts}</td>`+
-    `<td>${c.ips}</td>`+
-    `<td>${c.layers}</td>`+
+    `<td>${c.alerts}</td><td>${c.ips}</td><td>${c.layers}</td>`+
     `<td style="font-family:var(--mono);font-size:10px;color:var(--blue)">${c.ttp}</td>`+
     `<td>${c.last}</td>`;
   tbody.appendChild(tr);
