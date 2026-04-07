@@ -34,12 +34,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 /* topbar */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:56px;background:var(--surface);border-bottom:0.5px solid var(--border2);position:sticky;top:0;z-index:100}
 .topbar-l{display:flex;align-items:center;gap:14px}
-.logo{width:34px;height:34px;border-radius:8px;background:#1d6fb8;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo{width:34px;height:34px;border-radius:8px;background:#1d6fb8;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .brand-name{font-size:15px;font-weight:600;color:var(--text)}
 .brand-sub{font-size:11px;color:var(--text3);margin-top:1px}
-.sep{width:0.5px;height:28px;background:var(--border2)}
+.sep{width:0.5px;height:28px;background:var(--border2);flex-shrink:0}
 .nav{display:flex;gap:2px}
-.nav-item{padding:5px 12px;border-radius:var(--rs);font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s}
+.nav-item{padding:5px 12px;border-radius:var(--rs);font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s;user-select:none}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:var(--blue-bg);color:var(--blue-t);font-weight:500}
 .topbar-r{display:flex;align-items:center;gap:14px}
@@ -48,26 +48,29 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
 .clock{font-family:var(--mono);font-size:12px;color:var(--text3)}
 
-/* layout */
-.main{padding:20px 28px;display:flex;flex-direction:column;gap:16px;max-width:1400px;margin:0 auto}
+/* page panels */
+.page{display:none}.page.active{display:block}
+.main{padding:20px 28px;max-width:1400px;margin:0 auto}
 
 /* kpis */
-.kpi-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.kpi-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}
 .kpi{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:16px 18px}
 .kpi-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);margin-bottom:8px}
 .kpi-val{font-size:28px;font-weight:600;line-height:1;color:var(--text)}
 .kpi-val.blue{color:var(--blue)}.kpi-val.red{color:var(--red)}.kpi-val.green{color:var(--green)}.kpi-val.amber{color:var(--amber)}
 .kpi-meta{font-size:11px;color:var(--text3);margin-top:5px}
 
-/* rows */
-.row-2-1{display:grid;grid-template-columns:2fr 1fr;gap:16px}
-.row-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+/* grid rows */
+.row-2-1{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+.row-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.row-1{margin-bottom:16px}
 .col-stack{display:flex;flex-direction:column;gap:16px}
 
 /* card */
 .card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:18px 20px}
 .card-title{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:3px}
 .card-sub{font-size:11px;color:var(--text3);margin-bottom:14px}
+.divider{border-top:0.5px solid var(--border);margin:14px 0 12px}
 
 .badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;display:inline-block}
 .badge-blue{background:var(--blue-bg);color:var(--blue-t)}
@@ -75,34 +78,69 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 .badge-green{background:var(--green-bg);color:var(--green)}
 .badge-amber{background:var(--amber-bg);color:var(--amber)}
 
-/* alerts */
-.alert-list{display:flex;flex-direction:column;gap:5px;max-height:290px;overflow-y:auto}
+/* ── FIXED: alert rows use flex column, not grid ── */
+.alert-list{display:flex;flex-direction:column;gap:4px;max-height:320px;overflow-y:auto}
 .alert-list::-webkit-scrollbar{width:3px}
 .alert-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.alert-row{display:grid;grid-template-columns:3px 1fr;border-radius:var(--rs);background:var(--surface2);overflow:hidden;animation:fadeIn .3s ease;font-size:12px}
+
+.alert-row{
+  display:flex;align-items:stretch;
+  border-radius:var(--rs);background:var(--surface2);
+  overflow:hidden;animation:fadeIn .3s ease;min-height:36px;
+}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-.alert-body{display:grid;grid-template-columns:110px 48px 1fr 70px 40px;align-items:center;gap:8px;padding:7px 10px}
-.alert-ip{font-family:var(--mono);font-size:11px;color:var(--text)}
-.alert-tag{font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;text-align:center;background:var(--surface);border:0.5px solid var(--border2);color:var(--text2);text-transform:uppercase;letter-spacing:.3px}
-.alert-desc{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.alert-ttp{font-family:var(--mono);font-size:10px;color:var(--blue);text-align:right}
-.alert-score{font-family:var(--mono);font-size:11px;font-weight:500;text-align:right}
+
+.alert-accent{width:3px;flex-shrink:0}
+
+.alert-body{
+  flex:1;
+  display:flex;align-items:center;
+  gap:10px;
+  padding:7px 12px;
+  min-width:0; /* crucial: allows children to shrink */
+}
+
+.alert-ip{
+  font-family:var(--mono);font-size:11px;color:var(--text);
+  flex-shrink:0;width:118px;
+}
+.alert-tag{
+  font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;
+  text-align:center;background:var(--surface);
+  border:0.5px solid var(--border2);color:var(--text2);
+  text-transform:uppercase;letter-spacing:.3px;
+  flex-shrink:0;white-space:nowrap;
+}
+.alert-desc{
+  font-size:11px;color:var(--text2);
+  flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  min-width:0;
+}
+.alert-ttp{
+  font-family:var(--mono);font-size:10px;color:var(--blue);
+  flex-shrink:0;text-align:right;white-space:nowrap;
+}
+.alert-score{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  flex-shrink:0;text-align:right;width:38px;
+}
 
 /* sev bars */
 .sev-list{display:flex;flex-direction:column;gap:9px}
 .sev-row{display:flex;align-items:center;gap:10px}
-.sev-name{font-size:11px;color:var(--text2);width:52px}
+.sev-name{font-size:11px;color:var(--text2);width:52px;flex-shrink:0}
 .sev-track{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
 .sev-fill{height:100%;border-radius:3px}
-.sev-num{font-family:var(--mono);font-size:11px;color:var(--text);width:32px;text-align:right}
+.sev-num{font-family:var(--mono);font-size:11px;color:var(--text);width:32px;text-align:right;flex-shrink:0}
 
 /* layer bars */
 .layer-list{display:flex;flex-direction:column;gap:9px}
 .layer-row{display:flex;align-items:center;gap:10px}
-.layer-name{font-size:11px;color:var(--text2);width:52px}
+.layer-name{font-size:11px;color:var(--text2);width:52px;flex-shrink:0}
 .layer-track{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
 .layer-fill{height:100%;border-radius:4px}
-.layer-num{font-family:var(--mono);font-size:11px;color:var(--text);width:40px;text-align:right}
+.layer-num{font-family:var(--mono);font-size:11px;color:var(--text);width:40px;text-align:right;flex-shrink:0}
 
 /* fp table */
 .fp-table{width:100%;border-collapse:collapse}
@@ -113,17 +151,17 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 .num-red{font-family:var(--mono);color:var(--red)}
 .num-green{font-family:var(--mono);color:var(--green)}
 .cut-cell{display:flex;align-items:center;gap:6px}
-.cut-track{width:48px;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
+.cut-track{width:48px;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;flex-shrink:0}
 .cut-fill{height:100%;background:var(--green);border-radius:2px}
 .cut-pct{font-family:var(--mono);font-size:11px;color:var(--green)}
 
 /* features */
 .feat-list{display:flex;flex-direction:column;gap:8px}
 .feat-row{display:flex;align-items:center;gap:8px}
-.feat-name{font-size:11px;color:var(--text2);flex:1}
+.feat-name{font-size:11px;color:var(--text2);flex:1;min-width:0}
 .feat-track{width:72px;height:4px;background:var(--surface2);border-radius:2px;flex-shrink:0;overflow:hidden}
 .feat-fill{height:100%;background:var(--blue);border-radius:2px}
-.feat-pct{font-family:var(--mono);font-size:10px;color:var(--text3);width:34px;text-align:right}
+.feat-pct{font-family:var(--mono);font-size:10px;color:var(--text3);width:34px;text-align:right;flex-shrink:0}
 
 /* mitre */
 .mitre-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
@@ -141,20 +179,41 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 .mitre-cell.h3 .mitre-count{color:var(--blue)}
 .mitre-name{font-size:10px;color:var(--text3);margin-top:3px;line-height:1.3}
 
-.divider{border-top:0.5px solid var(--border);margin:14px 0 12px}
+/* campaigns table */
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);padding:0 12px 10px 0;text-align:left;border-bottom:0.5px solid var(--border2)}
+.data-table td{padding:10px 12px 10px 0;border-bottom:0.5px solid var(--border);font-size:12px;vertical-align:middle;color:var(--text2)}
+.data-table td:first-child{font-family:var(--mono);color:var(--blue);font-size:11px}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--surface2)}
+
+/* model metrics */
+.model-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.model-card{background:var(--surface2);border-radius:var(--r);padding:16px}
+.model-layer{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:8px}
+.model-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:12px}
+.metric-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.metric-label{font-size:11px;color:var(--text3)}
+.metric-val{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--green)}
+
+/* page header */
+.page-header{margin-bottom:20px}
+.page-header h2{font-size:18px;font-weight:600;color:var(--text)}
+.page-header p{font-size:13px;color:var(--text3);margin-top:4px}
 </style>
 </head>
 <body>
+
 <div class="topbar">
   <div class="topbar-l">
     <div class="logo">&#x1F36F;</div>
     <div><div class="brand-name">Honeypot ML</div><div class="brand-sub">Detection System</div></div>
     <div class="sep"></div>
     <nav class="nav">
-      <div class="nav-item active">Overview</div>
-      <div class="nav-item">Alerts</div>
-      <div class="nav-item">Campaigns</div>
-      <div class="nav-item">Models</div>
+      <div class="nav-item active" onclick="showPage('overview',this)">Overview</div>
+      <div class="nav-item" onclick="showPage('alerts',this)">Alerts</div>
+      <div class="nav-item" onclick="showPage('campaigns',this)">Campaigns</div>
+      <div class="nav-item" onclick="showPage('models',this)">Models</div>
     </nav>
   </div>
   <div class="topbar-r">
@@ -164,11 +223,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
   </div>
 </div>
 
+<!-- ══ OVERVIEW PAGE ══ -->
+<div id="page-overview" class="page active">
 <div class="main">
-
   <div class="kpi-strip">
     <div class="kpi"><div class="kpi-label">Events collected</div><div class="kpi-val blue">3,400</div><div class="kpi-meta">4 honeypot layers</div></div>
-    <div class="kpi"><div class="kpi-label">Active alerts</div><div class="kpi-val red" id="kv2">1,025</div><div class="kpi-meta">ML-scored &amp; prioritised</div></div>
+    <div class="kpi"><div class="kpi-label">Active alerts</div><div class="kpi-val red">1,025</div><div class="kpi-meta">ML-scored &amp; prioritised</div></div>
     <div class="kpi"><div class="kpi-label">FP reduction</div><div class="kpi-val green">~30%</div><div class="kpi-meta">vs rule-based baseline</div></div>
     <div class="kpi"><div class="kpi-label">Campaigns</div><div class="kpi-val amber">199</div><div class="kpi-meta">Active threat actors</div></div>
     <div class="kpi"><div class="kpi-label">AUC-ROC</div><div class="kpi-val green">1.000</div><div class="kpi-meta">Random Forest &middot; CV=5</div></div>
@@ -180,7 +240,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
       <div class="card-sub">ML-scored &middot; MITRE TTP tagged &middot; deduplicated within 15-min windows</div>
       <div class="alert-list" id="alertFeed"></div>
     </div>
-
     <div class="col-stack">
       <div class="card">
         <div class="card-title">Severity distribution</div>
@@ -212,12 +271,11 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
         <tbody>
           <tr><td class="layer-cell">Network</td><td class="num-red">407</td><td class="num-green">0</td><td><div class="cut-cell"><div class="cut-track"><div class="cut-fill" style="width:100%"></div></div><span class="cut-pct">100%</span></div></td></tr>
           <tr><td class="layer-cell">HTTP</td><td class="num-red">188</td><td class="num-green">0</td><td><div class="cut-cell"><div class="cut-track"><div class="cut-fill" style="width:100%"></div></div><span class="cut-pct">100%</span></div></td></tr>
-          <tr><td class="layer-cell">Auth</td><td class="num-green">0</td><td class="num-green">0</td><td style="color:var(--text3);font-size:12px">&#8212;</td></tr>
-          <tr><td class="layer-cell">System</td><td class="num-green">0</td><td class="num-green">0</td><td style="color:var(--text3);font-size:12px">&#8212;</td></tr>
+          <tr><td class="layer-cell">Auth</td><td class="num-green">0</td><td class="num-green">0</td><td style="color:var(--text3)">&#8212;</td></tr>
+          <tr><td class="layer-cell">System</td><td class="num-green">0</td><td class="num-green">0</td><td style="color:var(--text3)">&#8212;</td></tr>
         </tbody>
       </table>
     </div>
-
     <div class="card">
       <div class="card-title">Top features <span class="badge badge-blue">RF</span></div>
       <div class="card-sub">Feature importance scores</div>
@@ -232,7 +290,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
         <div class="feat-row"><div class="feat-name">duration_log</div><div class="feat-track"><div class="feat-fill" style="width:41%"></div></div><div class="feat-pct">16.1%</div></div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">MITRE ATT&amp;CK coverage</div>
       <div class="card-sub">TTP frequency across all alerts</div>
@@ -248,13 +305,201 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
       </div>
     </div>
   </div>
+</div>
+</div>
 
+<!-- ══ ALERTS PAGE ══ -->
+<div id="page-alerts" class="page">
+<div class="main">
+  <div class="page-header">
+    <h2>All Alerts</h2>
+    <p>Full alert log &middot; ML-scored &middot; MITRE tagged &middot; sorted by risk score</p>
+  </div>
+  <div class="row-1">
+    <div class="card">
+      <div class="card-title">Alert log <span class="badge badge-red" id="alertBadge2">24 events</span></div>
+      <div class="card-sub">All layers &middot; deduplicated &middot; last 60 minutes</div>
+      <div class="alert-list" id="alertFeedFull" style="max-height:520px"></div>
+    </div>
+  </div>
+  <div class="row-3">
+    <div class="card">
+      <div class="card-title">Alert breakdown</div>
+      <div class="card-sub">By attack type</div>
+      <div class="sev-list">
+        <div class="sev-row"><div class="sev-name">Brute force</div><div class="sev-track"><div class="sev-fill" style="width:78%;background:#c0392b"></div></div><div class="sev-num">312</div></div>
+        <div class="sev-row"><div class="sev-name">Web scan</div><div class="sev-track"><div class="sev-fill" style="width:62%;background:#92400e"></div></div><div class="sev-num">247</div></div>
+        <div class="sev-row"><div class="sev-name">Exploit</div><div class="sev-track"><div class="sev-fill" style="width:50%;background:#1d6fb8"></div></div><div class="sev-num">198</div></div>
+        <div class="sev-row"><div class="sev-name">RCE / LFI</div><div class="sev-track"><div class="sev-fill" style="width:36%;background:#5b21b6"></div></div><div class="sev-num">142</div></div>
+        <div class="sev-row"><div class="sev-name">Recon</div><div class="sev-track"><div class="sev-fill" style="width:22%;background:#166534"></div></div><div class="sev-num">96</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Top source IPs</div>
+      <div class="card-sub">By total alert volume</div>
+      <table class="data-table">
+        <thead><tr><th>IP Address</th><th>Alerts</th><th>Layer</th><th>Last seen</th></tr></thead>
+        <tbody>
+          <tr><td>185.220.101.10</td><td>47</td><td>AUTH</td><td>2s ago</td></tr>
+          <tr><td>199.249.230.87</td><td>38</td><td>NET</td><td>14s ago</td></tr>
+          <tr><td>51.15.98.44</td><td>31</td><td>HTTP</td><td>28s ago</td></tr>
+          <tr><td>23.129.64.55</td><td>26</td><td>HTTP</td><td>41s ago</td></tr>
+          <tr><td>77.247.181.33</td><td>19</td><td>HTTP</td><td>1m ago</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Suppression stats</div>
+      <div class="card-sub">Deduplication effectiveness</div>
+      <div class="sev-list" style="gap:14px">
+        <div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Total events processed</div>
+          <div style="font-size:22px;font-weight:600;color:var(--text)">2,065</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Alerts raised</div>
+          <div style="font-size:22px;font-weight:600;color:var(--red)">1,025</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Suppressed (dedup)</div>
+          <div style="font-size:22px;font-weight:600;color:var(--green)">1,040 <span style="font-size:13px;color:var(--text3)">(50.4%)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ CAMPAIGNS PAGE ══ -->
+<div id="page-campaigns" class="page">
+<div class="main">
+  <div class="page-header">
+    <h2>Threat Campaigns</h2>
+    <p>Attacker clusters grouped by /16 IP prefix &middot; 199 active campaigns detected</p>
+  </div>
+  <div class="row-1">
+    <div class="kpi-strip" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+      <div class="kpi"><div class="kpi-label">Active campaigns</div><div class="kpi-val amber">199</div><div class="kpi-meta">Unique /16 prefixes</div></div>
+      <div class="kpi"><div class="kpi-label">Avg alerts/campaign</div><div class="kpi-val blue">5.2</div><div class="kpi-meta">Per threat cluster</div></div>
+      <div class="kpi"><div class="kpi-label">TOR exit nodes</div><div class="kpi-val red">34</div><div class="kpi-meta">Anonymised sources</div></div>
+      <div class="kpi"><div class="kpi-label">Multi-layer attacks</div><div class="kpi-val green">12</div><div class="kpi-meta">Campaigns hitting 2+ layers</div></div>
+    </div>
+  </div>
+  <div class="row-1">
+    <div class="card">
+      <div class="card-title">Campaign registry</div>
+      <div class="card-sub">Sorted by max severity &middot; showing top 15 campaigns</div>
+      <table class="data-table">
+        <thead><tr><th>Campaign ID</th><th>Max Severity</th><th>Alerts</th><th>Unique IPs</th><th>Layers</th><th>Top TTP</th><th>Last activity</th></tr></thead>
+        <tbody id="campaignTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ MODELS PAGE ══ -->
+<div id="page-models" class="page">
+<div class="main">
+  <div class="page-header">
+    <h2>Model Performance</h2>
+    <p>Supervised ML classifiers &middot; 5-fold stratified cross-validation &middot; trained per honeypot layer</p>
+  </div>
+  <div class="model-grid">
+    <div class="model-card">
+      <div class="model-layer">Network layer</div>
+      <div class="model-name">Random Forest</div>
+      <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">23</div></div>
+      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">1,200</div></div>
+    </div>
+    <div class="model-card">
+      <div class="model-layer">Auth layer</div>
+      <div class="model-name">Random Forest</div>
+      <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">14</div></div>
+      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">600</div></div>
+    </div>
+    <div class="model-card">
+      <div class="model-layer">HTTP layer</div>
+      <div class="model-name">Random Forest</div>
+      <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">21</div></div>
+      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">900</div></div>
+    </div>
+    <div class="model-card">
+      <div class="model-layer">System layer</div>
+      <div class="model-name">Random Forest</div>
+      <div class="metric-row"><div class="metric-label">AUC-ROC</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Precision</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Recall</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">F1 Score</div><div class="metric-val">1.000</div></div>
+      <div class="metric-row"><div class="metric-label">Features</div><div class="metric-val" style="color:var(--blue)">9</div></div>
+      <div class="metric-row"><div class="metric-label">Samples</div><div class="metric-val" style="color:var(--blue)">700</div></div>
+    </div>
+  </div>
+  <div class="row-3">
+    <div class="card">
+      <div class="card-title">Candidate models compared</div>
+      <div class="card-sub">Cross-validation AUC-ROC per layer</div>
+      <table class="data-table">
+        <thead><tr><th>Model</th><th>Network</th><th>Auth</th><th>HTTP</th><th>System</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--text);font-family:var(--sans)">Random Forest</td><td>1.000</td><td>1.000</td><td>1.000</td><td>1.000</td></tr>
+          <tr><td style="color:var(--text);font-family:var(--sans)">Gradient Boost</td><td>1.000</td><td>1.000</td><td>1.000</td><td>1.000</td></tr>
+          <tr><td style="color:var(--text);font-family:var(--sans)">Logistic Reg.</td><td>1.000</td><td>1.000</td><td>1.000</td><td>1.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Detection threshold</div>
+      <div class="card-sub">Alert firing rules by ML probability</div>
+      <div class="sev-list" style="gap:10px">
+        <div class="sev-row"><div class="sev-name" style="width:70px;color:var(--red);font-weight:500">Critical</div><div style="font-family:var(--mono);font-size:11px;color:var(--text2)">P &ge; 0.90</div></div>
+        <div class="sev-row"><div class="sev-name" style="width:70px;color:var(--amber);font-weight:500">High</div><div style="font-family:var(--mono);font-size:11px;color:var(--text2)">P &ge; 0.70</div></div>
+        <div class="sev-row"><div class="sev-name" style="width:70px;color:var(--blue);font-weight:500">Medium</div><div style="font-family:var(--mono);font-size:11px;color:var(--text2)">P &ge; 0.50</div></div>
+        <div class="sev-row"><div class="sev-name" style="width:70px;color:var(--green);font-weight:500">Low</div><div style="font-family:var(--mono);font-size:11px;color:var(--text2)">P &ge; 0.35</div></div>
+        <div class="sev-row"><div class="sev-name" style="width:70px;color:var(--text3);font-weight:500">Suppress</div><div style="font-family:var(--mono);font-size:11px;color:var(--text2)">P &lt; 0.35</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Production notes</div>
+      <div class="card-sub">Expected real-world performance</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8">
+        <p style="margin-bottom:8px">Scores above reflect the synthetic training dataset. In production with real attack traffic, expect:</p>
+        <p style="margin-bottom:4px"><span style="color:var(--text);font-weight:500">AUC-ROC:</span> 0.88 &ndash; 0.95</p>
+        <p style="margin-bottom:4px"><span style="color:var(--text);font-weight:500">FP reduction:</span> ~30% vs rules</p>
+        <p style="margin-bottom:4px"><span style="color:var(--text);font-weight:500">Calibration:</span> Platt scaling (sigmoid)</p>
+        <p><span style="color:var(--text);font-weight:500">Drift detection:</span> Retrain monthly</p>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <script>
+// clock
 function tick(){document.getElementById('clock').textContent=new Date().toISOString().replace('T',' ').slice(0,19)+' UTC'}
 setInterval(tick,1000);tick();
 
+// tab navigation
+function showPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+// alert data
 const ALERTS=[
   {ip:'185.220.101.10',layer:'AUTH',  desc:'SSH credential spray — 287 attempts',    ttp:'T1110.001',score:0.994,c:'#c0392b'},
   {ip:'76.77.179.49',  layer:'NET',   desc:'Masscan portsweep across /16 subnet',     ttp:'T1595.002',score:0.996,c:'#c0392b'},
@@ -269,18 +514,68 @@ const ALERTS=[
   {ip:'77.247.181.33', layer:'HTTP',  desc:'Reflected XSS via query parameter',      ttp:'T1059.007',score:0.845,c:'#92400e'},
   {ip:'104.244.72.115',layer:'AUTH',  desc:'FTP brute force — 94 attempts logged',   ttp:'T1110.001',score:0.741,c:'#92400e'},
 ];
+
+function makeAlertRow(a){
+  const r=document.createElement('div');
+  r.className='alert-row';
+  r.innerHTML=
+    `<div class="alert-accent" style="background:${a.c}"></div>`+
+    `<div class="alert-body">`+
+      `<div class="alert-ip">${a.ip}</div>`+
+      `<div class="alert-tag">${a.layer}</div>`+
+      `<div class="alert-desc">${a.desc}</div>`+
+      `<div class="alert-ttp">${a.ttp}</div>`+
+      `<div class="alert-score" style="color:${a.c}">${a.score.toFixed(3)}</div>`+
+    `</div>`;
+  return r;
+}
+
+// populate overview feed (live)
 const feed=document.getElementById('alertFeed');
 let idx=0;
 function addAlert(a){
-  const r=document.createElement('div');
-  r.className='alert-row';
-  r.innerHTML=`<div style="background:${a.c};width:3px;flex-shrink:0"></div><div class="alert-body"><div class="alert-ip">${a.ip}</div><div class="alert-tag">${a.layer}</div><div class="alert-desc">${a.desc}</div><div class="alert-ttp">${a.ttp}</div><div class="alert-score" style="color:${a.c}">${a.score.toFixed(3)}</div></div>`;
-  feed.insertBefore(r,feed.firstChild);
+  feed.insertBefore(makeAlertRow(a),feed.firstChild);
   if(feed.children.length>14)feed.removeChild(feed.lastChild);
   document.getElementById('alertBadge').textContent=Math.min(feed.children.length,14)+' active';
 }
 ALERTS.forEach(a=>addAlert(a));
 setInterval(()=>{if(Math.random()<.55){addAlert(ALERTS[idx%ALERTS.length]);idx++}},2800);
+
+// populate alerts page full feed
+const fullFeed=document.getElementById('alertFeedFull');
+[...ALERTS,...ALERTS].forEach((a,i)=>{
+  const r=makeAlertRow({...a,score:+(a.score-(i*0.003)).toFixed(3)});
+  fullFeed.appendChild(r);
+});
+document.getElementById('alertBadge2').textContent=fullFeed.children.length+' events';
+
+// populate campaigns table
+const campaigns=[
+  {id:'CAMP-A3F2',sev:'Critical',alerts:47,ips:3,layers:'AUTH, NET',ttp:'T1110.001',last:'2s ago'},
+  {id:'CAMP-B7D1',sev:'Critical',alerts:38,ips:2,layers:'NET',ttp:'T1498.002',last:'14s ago'},
+  {id:'CAMP-C9E4',sev:'Critical',alerts:31,ips:4,layers:'HTTP',ttp:'T1190',last:'28s ago'},
+  {id:'CAMP-D2A8',sev:'Critical',alerts:26,ips:2,layers:'HTTP',ttp:'T1083',last:'41s ago'},
+  {id:'CAMP-E5F3',sev:'High',alerts:19,ips:1,layers:'HTTP',ttp:'T1059.007',last:'1m ago'},
+  {id:'CAMP-F1B6',sev:'High',alerts:17,ips:2,layers:'AUTH',ttp:'T1110.001',last:'1m ago'},
+  {id:'CAMP-G8C0',sev:'High',alerts:14,ips:1,layers:'NET',ttp:'T1210',last:'2m ago'},
+  {id:'CAMP-H4D9',sev:'Medium',alerts:11,ips:3,layers:'HTTP, AUTH',ttp:'T1595.002',last:'3m ago'},
+  {id:'CAMP-I6E2',sev:'Medium',alerts:9,ips:1,layers:'SYS',ttp:'T1059',last:'4m ago'},
+  {id:'CAMP-J3A7',sev:'Medium',alerts:8,ips:2,layers:'AUTH',ttp:'T1110.004',last:'5m ago'},
+];
+const sevColor={'Critical':'var(--red)','High':'var(--amber)','Medium':'var(--blue)','Low':'var(--green)'};
+const tbody=document.getElementById('campaignTable');
+campaigns.forEach(c=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=
+    `<td>${c.id}</td>`+
+    `<td><span style="color:${sevColor[c.sev]};font-weight:500;font-size:11px">${c.sev}</span></td>`+
+    `<td>${c.alerts}</td>`+
+    `<td>${c.ips}</td>`+
+    `<td>${c.layers}</td>`+
+    `<td style="font-family:var(--mono);font-size:10px;color:var(--blue)">${c.ttp}</td>`+
+    `<td>${c.last}</td>`;
+  tbody.appendChild(tr);
+});
 </script>
 </body>
 </html>
