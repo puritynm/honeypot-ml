@@ -1,4 +1,4 @@
-\# 🍯Honeypot ML Detection System
+\🍯Honeypot ML Detection System
 
 
 
@@ -6,13 +6,13 @@ A multi-layer honeypot that uses supervised machine learning to classify attack 
 
 
 
-\## Live Dashboard
+\Live Dashboard
 
-👉 \[View SOC Dashboard](https://puritynm.github.io/honeypot-ml/dashboard.html)
+👉 \[View SOC Dashboard]( https://puritynm.github.io/honeypot-ml/dashboard.html )
 
 
 
-\## Features
+\ Features
 
 \- Multi-layer honeypot sensors (SSH, HTTP, FTP, SMB, DNS)
 
@@ -28,7 +28,7 @@ A multi-layer honeypot that uses supervised machine learning to classify attack 
 
 
 
-\## Quick Start
+\ Quick Start
 
 ```bash
 
@@ -40,7 +40,7 @@ python main.py
 
 
 
-\## Project Structure
+\ Project Structure
 
 \- `src/honeypot/` — telemetry collection
 
